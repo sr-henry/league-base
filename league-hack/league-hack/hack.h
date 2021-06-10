@@ -93,8 +93,11 @@ public: // Utils
 	bool IsGameRunning();
 	vec2 MousePos();
 	void MouseMove(vec2 vPos);
+	void MouseMoveRelative(int x, int y);
+	void MouseMoveSmooth(int smoothing, int delay, vec2 vPos);
 	void MouseRightClick(vec2 vPos);
 	void KeyboardPressKey(char cKey);
+	
 
 private:
 	HWND hGameWindow;

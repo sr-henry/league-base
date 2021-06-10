@@ -22,7 +22,7 @@ void Hack::Init() {
 }
 
 void Hack::Update() {
-
+	//Timer t;
 	tp2 = std::chrono::system_clock::now();
 	elapsedTime = tp2 - tp1;
 	tp1 = tp2;
@@ -267,6 +267,15 @@ void Hack::MouseMove(vec2 vPos) {
 	SendInput(1, &in, sizeof(in));
 }
 
+void Hack::MouseMoveRelative(int x, int y) {
+	INPUT in = { 0 };
+	in.type = INPUT_MOUSE;
+	in.mi.dwFlags = MOUSEEVENTF_MOVE;
+	in.mi.dx = x;
+	in.mi.dy = y;
+	SendInput(1, &in, sizeof(in));
+}
+
 void Hack::MouseRightClick(vec2 vPos) {
 	INPUT in = { 0 };
 
@@ -299,4 +308,23 @@ void Hack::KeyboardPressKey(char cKey) {
 	std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
 	SendInput(1, &input, sizeof(input));
+}
+
+void Hack::MouseMoveSmooth(int dSmoothing, int fDelay, vec2 vPos) {
+	vec2 delta = vPos - MousePos();
+
+	int x = static_cast<int>(delta.x);
+	int y = static_cast<int>(delta.y);
+
+	int _x = 0, _y = 0, _t = 0;
+
+	for (int i = 1; i <= dSmoothing; i++) {
+		int xi = i * x / dSmoothing;
+		int yi = i * y / dSmoothing;
+		int ti = i * fDelay / dSmoothing;
+		MouseMoveRelative(xi - _x, yi - _y);
+		std::this_thread::sleep_for(std::chrono::milliseconds(ti - _t));
+		_x = xi; _y = yi; _t = ti;
+	}
+
 }
