@@ -1,0 +1,50 @@
+﻿  api.cpp
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\api.cpp(16,28): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  drawing.cpp
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(77,21): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(102,166): error C2664: 'HRESULT D3DXCreateFontA(LPDIRECT3DDEVICE9,INT,UINT,UINT,UINT,BOOL,DWORD,DWORD,DWORD,DWORD,LPCSTR,LPD3DXFONT *)': cannot convert argument 11 from 'const wchar_t [6]' to 'LPCSTR'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(102,150): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3dx9core.h(381,5): message : see declaration of 'D3DXCreateFontA'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(106,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(106,36): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(106,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(106,22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(109,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(109,26): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(109,23): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(109,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(118,21): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(121,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(143,21): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(146,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  hack.cpp
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(4,65): error C2664: 'HWND FindWindowA(LPCSTR,LPCSTR)': cannot convert argument 2 from 'const wchar_t [30]' to 'LPCSTR'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(4,33): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winuser.h(10051,1): message : see declaration of 'FindWindowA'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(87,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(89,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(257,31): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(258,32): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(259,32): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(263,33): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(264,33): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(266,32): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(268,32): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(269,32): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(270,32): warning C4305: '=': truncation from 'double' to 'float'
+  main.cpp
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(4,34): error C2664: 'HWND FindWindowA(LPCSTR,LPCSTR)': cannot convert argument 2 from 'const wchar_t [2]' to 'LPCSTR'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(4,30): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winuser.h(10051,1): message : see declaration of 'FindWindowA'
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(16,20): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(17,20): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(35,29): warning C4838: conversion from 'LONG' to 'float' requires a narrowing conversion
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(35,29): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(35,43): warning C4838: conversion from 'LONG' to 'float' requires a narrowing conversion
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(35,43): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(78,58): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(78,55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(78,51): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(78,33): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\api.cpp(53): warning C4715: 'DownloadJSON': not all control paths return a value
