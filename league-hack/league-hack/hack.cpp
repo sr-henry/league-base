@@ -23,8 +23,6 @@ void Hack::Init() {
 
 void Hack::Update() {
 
-	//Timer t;
-
 	tp2 = std::chrono::system_clock::now();
 	elapsedTime = tp2 - tp1;
 	tp1 = tp2;
@@ -32,14 +30,16 @@ void Hack::Update() {
 
 	fGameTime += fElapsedTime;
 
+	f = std::async(std::launch::async, HttpRequestGet, "https://127.0.0.1:2999/liveclientdata/allgamedata", &httpData);
+
 	mGameImage = wndCapture();
 
 	GetLocalEntity();
 
 	aEnemyEntListOld.swap(aEnemyEntList);
 	GetEnemyEntities();
-	CalculateEntData();
 
+	CalculateEntData();
 }
 
 void Hack::GetLocalEntity() {
@@ -289,13 +289,10 @@ void Hack::KeyboardPressKey(char cKey) {
 }
 
 float Hack::fLocalEntAttackRange() {
-	json r;
-	r = json::parse(DownloadApiData("https://127.0.0.1:2999/liveclientdata/activeplayer"));
-	return  r["championStats"]["attackRange"].get<float>();
+	return 0;
 }
 
 float Hack::fLocalEntAttackSpeed() {
-	json r;
-	r = json::parse(DownloadApiData("https://127.0.0.1:2999/liveclientdata/activeplayer"));
-	return  r["championStats"]["attackSpeed"].get<float>();
+	json r = json::parse(httpData);
+	return  r["activePlayer"]["championStats"]["attackSpeed"].get<float>();
 }

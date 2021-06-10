@@ -50,10 +50,11 @@ public:
 	vec2 PredictEnt(Ent e, float fPredictT);
 	Ent* GetClosestEnemy(vec2 vRef);
 
+
 	float fLocalEntAttackRange();
 	float fLocalEntAttackSpeed();
 	float fGameTime;
-	
+
 	// Utils
 	vec2 MousePos();
 	void MouseMove(vec2 vPos);
@@ -61,6 +62,9 @@ public:
 	void KeyboardPressKey(char cKey);
 
 private:
+	std::future<void> f;
+	std::string httpData;
+
 	// Elapsed Time
 	std::chrono::system_clock::time_point tp1, tp2;
 	std::chrono::duration<float> elapsedTime;
@@ -68,9 +72,6 @@ private:
 	
 	cv::Mat mGameImage;
 	cv::Mat wndCapture();
-
-	// api data
-	std::string sGameData;
 
 	EntSetting localEntity;
 	EntSetting enemyEntity;

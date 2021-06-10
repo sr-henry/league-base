@@ -1,3 +1,3 @@
 #pragma once
 
-std::string DownloadApiData(std::string url);
+void HttpRequestGet(std::string url, std::string* httpData);

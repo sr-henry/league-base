@@ -98,10 +98,10 @@ void Orbwalker​() {
 
 	vec2 vCursorPos = hack.MousePos();
 
-	fAttackSpeed = hack.fLocalEntAttackSpeed();
-
 	if (GetAsyncKeyState(VK_SPACE)) {
 		
+		fAttackSpeed = hack.fLocalEntAttackSpeed();
+
 		if (!hack.eLocalEnt)
 			return;
 
@@ -134,6 +134,17 @@ void Orbwalker​() {
 
 int main() {
     
+	/*
+		[?] Game Settings:
+		 -  colorblind mode (on)
+		 -  window mode (to overlay)
+		 -  nivel de cor (75)
+		 -  exibir barra de vida (on)
+		 -  cam mode (fixed)
+		 -  movimentação com attack (set any key conjunto 2)
+		 -  bind auto attack move to left-click (off)
+	*/
+
     hack.Init();
 
     // Hack loop
