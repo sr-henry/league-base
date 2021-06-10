@@ -3,26 +3,6 @@
 Hack hack;
 Drawing d3d;
 
-// wtf
-bool bClear = true;
-
-// AA Range
-float fWorldAARange = 550.0f;
-float fWorldAARangeRadius = fWorldAARange / 2;
-float fScreenAARangeX = fWorldAARangeRadius + fWorldAARangeRadius * 1.8f / 100;
-float fScreenAARangeY = fWorldAARangeRadius - fWorldAARangeRadius * 1.8f / 10;
-
-bool IsInside(vec2 vAARangeCenter, float fScreenAARnageX, float fScreenAARangeY, vec2 vPoint, float threshold = 1) {
-
-	float fRes = (vPoint.x - vAARangeCenter.x) * (vPoint.x - vAARangeCenter.x) / (fScreenAARnageX * fScreenAARnageX)
-		+ (vPoint.y - vAARangeCenter.y) * (vPoint.y - vAARangeCenter.y) / (fScreenAARangeY * fScreenAARangeY);
-
-	if (fRes <= threshold)
-		return true;
-
-	return false;
-
-}
 
 // Features
 void ESP() {
@@ -38,7 +18,7 @@ void ESP() {
 
 	// AA Range fake
 	if (hack.eLocalEnt) {
-		d3d.drawEllipse(hack.eLocalEnt->vPos.x, hack.eLocalEnt->vPos.y, fScreenAARangeX, fScreenAARangeY, 50, 2, d3dWhite);
+		d3d.drawEllipse(hack.eLocalEnt->vPos.x, hack.eLocalEnt->vPos.y, hack.eLocalEnt->vScreenAARange.x, hack.eLocalEnt->vScreenAARange.y, 50, 2, d3dWhite);
 	}
 
 	for (int i = 0; i < hack.aEnemyEntList.size(); i++) {
@@ -73,7 +53,7 @@ void ESP() {
 				
 	}
 
-	d3d.fRender(); bClear = false;
+	d3d.fRender();
 	
 }
 
@@ -100,8 +80,6 @@ void Orbwalker​() {
 
 	if (GetAsyncKeyState(VK_SPACE)) {
 		
-		fAttackSpeed = hack.fLocalEntAttackSpeed();
-
 		if (!hack.eLocalEnt)
 			return;
 
@@ -110,7 +88,9 @@ void Orbwalker​() {
 		if (!enemy)
 			return;
 
-		bIsInside = IsInside(hack.eLocalEnt->vPos, fScreenAARangeX, fScreenAARangeY, enemy->vPos, 1.5f);
+		fAttackSpeed = hack.eLocalEnt->fAttackSpeed;
+
+		bIsInside = hack.eLocalEnt->IsInside(*enemy, 1.5f);
 
 		if (bIsOrbAttackable && bIsInside) {
 
@@ -145,23 +125,28 @@ int main() {
 		 -  bind auto attack move to left-click (off)
 	*/
 
+	static bool bClear = true;
+
     hack.Init();
 
-    // Hack loop
-    while (!GetAsyncKeyState(VK_HOME)) {
+    while (!GetAsyncKeyState(VK_HOME))
+	{
 
-    	if (hack.hGameWindow == GetForegroundWindow()) {
+    	if (hack.IsGameRunning()) 
+		{
     		hack.Update();
 			
     		ESP();
     		AimLock();
     		Orbwalker​();
 
+			bClear = false;
     	}
-    	else if (!bClear) {
-    		d3d.clear(); bClear = true;
+    	else if (!bClear) 
+		{
+    		d3d.clear();
+			bClear = true;
     	}
-
     }
 
     d3d.clear();

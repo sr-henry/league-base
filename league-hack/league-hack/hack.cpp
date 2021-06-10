@@ -35,11 +35,11 @@ void Hack::Update() {
 	mGameImage = wndCapture();
 
 	GetLocalEntity();
+	GetLocalEntData();
 
 	aEnemyEntListOld.swap(aEnemyEntList);
 	GetEnemyEntities();
-
-	CalculateEntData();
+	CalculateEnemyData();
 }
 
 void Hack::GetLocalEntity() {
@@ -68,16 +68,12 @@ void Hack::GetLocalEntity() {
 			eRelativePos = cv::boundingRect(approx[i]);
 
 			eLocalEntBase = {
-					0,
-					vec2{
+				vec2{
 						eRelativePos.x + eRelativePos.width + localEntity.offset.x,
 						eRelativePos.y + eRelativePos.height + localEntity.offset.y
-					},
-					vec2{0,0},
-					0.0f,
-					0.0f
+					}
 			};
-
+			
 			eLocalEnt = &eLocalEntBase;
 			return;
 		}
@@ -87,32 +83,9 @@ void Hack::GetLocalEntity() {
 
 }
 
-void Hack::CalculateEntData() {
-	
-	int maxEnt;
-
-	// check aEnemyEntList size -- current
-	if (aEnemyEntList.size() < aEnemyEntListOld.size())
-		maxEnt = aEnemyEntList.size();
-	else
-		maxEnt = aEnemyEntListOld.size();
-
-	for (int i = 0; i < maxEnt; i++) {
-
-		aEnemyEntList[i].vDirection = aEnemyEntList[i].vPos - aEnemyEntListOld[i].vPos;
-
-		aEnemyEntList[i].fMagnitude = sqrt(aEnemyEntList[i].vDirection.x * aEnemyEntList[i].vDirection.x + aEnemyEntList[i].vDirection.y * aEnemyEntList[i].vDirection.y);
-
-		aEnemyEntList[i].fSpeed = aEnemyEntList[i].fMagnitude / fElapsedTime;
-
-	}
-
-}
-
 void Hack::GetEnemyEntities() { // 2.5ms
 
 	aEnemyEntList.clear();
-	//std::vector<Ent> entList;
 
 	cv::Mat mMask;
 	inRange(mGameImage, enemyEntity.l, enemyEntity.u, mMask);
@@ -138,16 +111,11 @@ void Hack::GetEnemyEntities() { // 2.5ms
 		if (approx[i].size() == enemyEntity.threshold) {
 			eRelativePos = cv::boundingRect(approx[i]);
 
-			aEnemyEntList.push_back(
-				Ent{
-					dEntCount,
-					vec2{
-						eRelativePos.x + eRelativePos.width + enemyEntity.offset.x,
-						eRelativePos.y + eRelativePos.height + enemyEntity.offset.y
-					},
-					vec2{0,0},
-					0.0f,
-					0.0f
+			aEnemyEntList.emplace_back(
+				dEntCount,
+				vec2{
+					eRelativePos.x + eRelativePos.width + enemyEntity.offset.x,
+					eRelativePos.y + eRelativePos.height + enemyEntity.offset.y
 				}
 			);
 
@@ -155,6 +123,45 @@ void Hack::GetEnemyEntities() { // 2.5ms
 		}
 	}
 
+}
+
+void Hack::CalculateEnemyData() {
+
+	int maxEnt;
+
+	// check aEnemyEntList size -- current
+	if (aEnemyEntList.size() < aEnemyEntListOld.size())
+		maxEnt = aEnemyEntList.size();
+	else
+		maxEnt = aEnemyEntListOld.size();
+
+	for (int i = 0; i < maxEnt; i++) {
+
+		aEnemyEntList[i].vDirection = aEnemyEntList[i].vPos - aEnemyEntListOld[i].vPos;
+
+		aEnemyEntList[i].fMagnitude = sqrt(aEnemyEntList[i].vDirection.x * aEnemyEntList[i].vDirection.x + aEnemyEntList[i].vDirection.y * aEnemyEntList[i].vDirection.y);
+
+		aEnemyEntList[i].fSpeed = aEnemyEntList[i].fMagnitude / fElapsedTime;
+
+	}
+
+}
+
+void Hack::GetLocalEntData() {
+
+	if (httpData.empty())
+		return;
+
+	json r = json::parse(httpData);
+	json chanponStats = r["activePlayer"]["championStats"];
+
+	eLocalEntBase.fAttackSpeed = chanponStats["attackSpeed"].get<float>();
+	eLocalEntBase.fWorldAARange = chanponStats["attackRange"].get<float>();
+
+	float fWorldAARangeRadius = eLocalEntBase.fWorldAARange / 2;
+	eLocalEntBase.vScreenAARange.x = fWorldAARangeRadius + fWorldAARangeRadius * 1.8f / 100;
+	eLocalEntBase.vScreenAARange.y = fWorldAARangeRadius - fWorldAARangeRadius * 1.8f / 10;
+	
 }
 
 Ent* Hack::GetClosestEnemy(vec2 vRef) {
@@ -237,6 +244,12 @@ cv::Mat Hack::wndCapture() {
 	return mGameImage;
 }
 
+bool Hack::IsGameRunning() {
+	if (hGameWindow == GetForegroundWindow())
+		return true;
+	return false;
+}
+
 vec2 Hack::MousePos() {
 	POINT pCursorPos;
 	GetCursorPos(&pCursorPos);
@@ -286,13 +299,4 @@ void Hack::KeyboardPressKey(char cKey) {
 	std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
 	SendInput(1, &input, sizeof(input));
-}
-
-float Hack::fLocalEntAttackRange() {
-	return 0;
-}
-
-float Hack::fLocalEntAttackSpeed() {
-	json r = json::parse(httpData);
-	return  r["activePlayer"]["championStats"]["attackSpeed"].get<float>();
 }
