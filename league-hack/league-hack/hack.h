@@ -84,7 +84,7 @@ public:
 	std::vector<Ent> aEnemyEntList;
 	float fGameTime;
 
-	void Init();
+	Hack();
 	void Update();
 	
 public: // Utils
@@ -98,13 +98,11 @@ public: // Utils
 	void MouseRightClick(vec2 vPos);
 	void KeyboardPressKey(char cKey);
 	
-
 private:
 	HWND hGameWindow;
 	cv::Mat mGameImage;
 	cv::Mat wndCapture();
 
-	// Elapsed Time
 	std::chrono::system_clock::time_point tp1, tp2;
 	std::chrono::duration<float> elapsedTime;
 	float fElapsedTime;

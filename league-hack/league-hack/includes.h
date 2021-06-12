@@ -15,10 +15,12 @@
 #include <future>
 #include <thread>
 #include <chrono>
+#include <fstream>
 
 #include "hack.h"
 #include "drawing.h"
 #include "api.h"
+
 
 #define CURL_STATICLIB
 #include "curl/curl.h"
@@ -43,6 +45,4 @@ struct Timer {
 
 		std::cout << "Timer took: " << ms << "ms" << std::endl;
 	}
-
 };
-

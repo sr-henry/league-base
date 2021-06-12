@@ -1,6 +1,6 @@
 #include "includes.h"
 
-void Hack::Init() {
+Hack::Hack() {
 	hGameWindow = FindWindow(NULL, L"League of Legends (TM) Client");
 	if (!hGameWindow)
 		return;

@@ -1,11 +1,35 @@
-﻿  main.cpp
-C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(49,131): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(49,97): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(49,63): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(49,39): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+﻿  api.cpp
+  drawing.cpp
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(78,21): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(107,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(107,36): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(107,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(107,22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(110,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(110,26): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(110,23): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(110,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(119,21): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(122,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(144,21): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\drawing.cpp(147,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  hack.cpp
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(134,32): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(136,35): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(275,20): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(276,20): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(294,17): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(295,17): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(305,17): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\hack.cpp(306,17): warning C4244: '=': conversion from 'float' to 'LONG', possible loss of data
+  main.cpp
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(96,131): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(96,97): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(96,63): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\Desktop\league-of-legends\league-hack\league-hack\main.cpp(96,39): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  1 of 2246 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  22 of 2222 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

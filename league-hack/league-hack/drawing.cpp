@@ -34,6 +34,7 @@ Drawing::Drawing() {
 }
 
 Drawing::~Drawing() {
+    clear();
     if (d3dDevice != NULL)
         d3dDevice->Release();
     if (d3dObject != NULL)
