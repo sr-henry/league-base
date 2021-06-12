@@ -1,4 +1,5 @@
 ﻿#include "includes.h"
+#include <random>
 
 Hack hack;
 Drawing d3d;
@@ -15,15 +16,21 @@ struct ESP_CFG
 
 struct AimLock_CFG
 {
+	bool uniformDistribution = false;
 	int smooth = 200;
 	int delay = 15;
 };
 
-struct Settings {
+struct Settings
+{
 	ESP_CFG esp;
 	AimLock_CFG aim;
 }settings;
 
+// human
+std::default_random_engine generator;
+std::uniform_int_distribution<int> SmoothDistribution(100, 200);
+std::uniform_int_distribution<int> DelayDistribution(10, 20);
 
 // Features
 void ESP() {
@@ -86,8 +93,13 @@ void AimLock() {
 		Ent* enemy = hack.GetClosestEnemy(hack.MousePos());
 
 		if (enemy) {
+
+			if (settings.aim.uniformDistribution) {
+				settings.aim.smooth = SmoothDistribution(generator);
+				settings.aim.delay = DelayDistribution(generator);
+			}
+
 			hack.MouseMoveSmooth(settings.aim.smooth, settings.aim.delay, enemy->vPos);
-			//hack.MouseMove(enemy->vPos);
 		}	
 	}
 }
@@ -137,16 +149,24 @@ void Orbwalker​() {
 
 int main() {
     
-	/*
-		[?] Game Settings:
-		 -  colorblind mode (on)
-		 -  window mode (to overlay)
-		 -  nivel de cor (75)
-		 -  exibir barra de vida (on)
-		 -  cam mode (fixed)
-		 -  movimentação com attack (set any key conjunto 2)
-		 -  bind auto attack move to left-click (off)
-	*/
+
+	std::cout << R"(
+     __                           __            __  
+    / /__ ___ ____ ___ _____ ____/ /  ___ _____/ /__
+   / / -_) _ `/ _ `/ // / -_)___/ _ \/ _ `/ __/  '_/
+  /_/\__/\_,_/\_, /\_,_/\__/   /_//_/\_,_/\__/_/\_\ 
+             /___/                                  
+
+	[?] Game Settings:
+	 -  colorblind mode (on)
+	 -  window mode (to overlay)
+	 -  nivel de cor (75)
+	 -  exibir barra de vida (on)
+	 -  cam mode (fixed)
+	 -  movimentação com attack (set any key conjunto 2)
+	 -  bind auto attack move to left-click (off)	
+
+)" << '\n';
 
 	static bool bClear = true;
 

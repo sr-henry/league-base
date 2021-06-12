@@ -152,8 +152,18 @@ void Hack::GetLocalEntData() {
 	if (httpData.empty())
 		return;
 
-	json r = json::parse(httpData);
-	json chanponStats = r["activePlayer"]["championStats"];
+	json j;
+	try 
+	{
+		j = json::parse(httpData);
+	}
+	catch (json::parse_error& ex) {
+		std::cout << ex.what() << std::endl;
+		std::cout << ex.id << std::endl;
+		return;
+	}
+	
+	json chanponStats = j["activePlayer"]["championStats"];
 
 	eLocalEntBase.fAttackSpeed = chanponStats["attackSpeed"].get<float>();
 	eLocalEntBase.fWorldAARange = chanponStats["attackRange"].get<float>();
