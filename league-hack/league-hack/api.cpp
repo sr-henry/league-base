@@ -48,4 +48,6 @@ void HttpRequestGet(std::string url, std::string* httpData) {
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
     curl_easy_cleanup(curl);
 
+    // return the httpCode ?
+
 }

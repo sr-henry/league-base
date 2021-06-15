@@ -3,12 +3,6 @@
 #include <iostream>
 #include <Windows.h>
 #include <opencv2/opencv.hpp>
-
-#include <d3d9.h>
-#include <d3dx9.h>
-#pragma comment(lib, "d3d9.lib")
-#pragma comment(lib, "d3dx9.lib")
-
 #include <stdio.h>
 #include <math.h>
 #include <string>
@@ -16,17 +10,19 @@
 #include <thread>
 #include <chrono>
 #include <fstream>
+#include <random>
+
+#include <d3d9.h>
+#include <d3dx9.h>
+#pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "d3dx9.lib")
 
 #include "hack.h"
 #include "drawing.h"
 #include "api.h"
 
-
 #define CURL_STATICLIB
 #include "curl/curl.h"
-
-#include "json.hpp"
-using json = nlohmann::json;
 
 #define PI 3.14159265358979323846
 

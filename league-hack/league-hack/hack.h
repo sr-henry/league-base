@@ -1,6 +1,7 @@
 #pragma once
 
 struct vec2 {
+	
 	float x, y;
 
 	vec2 operator+(const vec2& v) const { 
@@ -21,6 +22,41 @@ struct vec2 {
 
 };
 
+
+struct championStats {
+	float abilityHaste;
+	float abilityPower;
+	float armor;
+	float armorPenetrationFlat;
+	float armorPenetrationPercent;
+	float attackDamage;
+	float attackRange;
+	float attackSpeed;
+	float bonusArmorPenetrationPercent;
+	float bonusMagicPenetrationPercent;
+	float critChance;
+	float critDamage;
+	float currentHealth;
+	float healShieldPower;
+	float healthRegenRate;
+	float lifeSteal;
+	float magicLethality;
+	float magicPenetrationFlat;
+	float magicPenetrationPercent;
+	float magicResist;
+	float maxHealth;
+	float moveSpeed;
+	float omnivamp;
+	float physicalLethality;
+	float physicalVamp;
+	float resourceMax;
+	float resourceRegenRate;
+	std::string resourceType;
+	float resourceValue;
+	float spellVamp;
+	float tenacity;
+};
+
 struct EntSetting {
 	vec2 offset;
 	cv::Scalar l, u;
@@ -32,24 +68,16 @@ class Ent
 public:
 	int Id;
 	vec2 vPos;
-	vec2 vDirection;
-	float fMagnitude;
-	float fSpeed;
 
 public:
 	Ent() {
 		Id = 0;
 		vPos = vec2{ 0,0 };
-		vDirection = vec2{ 0,0 };
-		fMagnitude = 0.0f;
-		fSpeed = 0.0f;
 	};
+
 	Ent(int id, vec2 pos) {
 		Id = id;
 		vPos = pos;
-		vDirection = vec2{ 0,0 };
-		fMagnitude = 0.0f;
-		fSpeed = 0.0f;
 	}
 
 };
@@ -57,9 +85,12 @@ public:
 class LocalEnt : public Ent
 {
 public:
-	float fAttackSpeed;
-	float fWorldAARange;
-	vec2 vScreenAARange;
+	LocalEnt() : Ent() {};
+	LocalEnt(vec2 pos) : Ent(0, pos) {};
+
+public:
+	championStats stats;
+	vec2 vScreenAARange{ 0,0 };
 
 	bool IsInside(Ent e, float threshold = 1) {
 		float fRes = (e.vPos.x - vPos.x) * (e.vPos.x - vPos.x) / (vScreenAARange.x * vScreenAARange.x)
@@ -71,25 +102,43 @@ public:
 		return false;
 	}
 
+};
+
+
+class Enemy : public Ent
+{
 public:
-	LocalEnt() : Ent() {};
-	LocalEnt(vec2 pos) : Ent(0, pos) {};
+	Enemy() : Ent() {};
+	Enemy(int id, vec2 pos) : Ent(id, pos) {};
+
+public:
+	vec2 vDirection;
+	float fMagnitude;
+	float fSpeed;
+
+	vec2 Predict(float fPredictT) {
+
+		if (fMagnitude == 0.0f || fMagnitude > 15.f)
+			return vec2{ 0,0 };
+
+		return (vDirection / fMagnitude) * fSpeed * fPredictT;
+	}
 
 };
 
-class Hack 
+
+class Hack
 {
 public:
 	LocalEnt* eLocalEnt;
-	std::vector<Ent> aEnemyEntList;
+	std::vector<Enemy> aEnemyEntList;
 	float fGameTime;
 
+public:
 	Hack();
 	void Update();
-	
-public: // Utils
-	vec2 PredictEnt(Ent e, float fPredictT);
-	Ent* GetClosestEnemy(vec2 vRef);
+	// vec2 PredictEnt(Enemy e, float fPredictT);
+	Enemy* GetClosestEnemy(vec2 vRef);
 	bool IsGameRunning();
 	vec2 MousePos();
 	void MouseMove(vec2 vPos);
@@ -101,18 +150,18 @@ public: // Utils
 private:
 	HWND hGameWindow;
 	cv::Mat mGameImage;
-	cv::Mat wndCapture();
+	cv::Mat WindowCapture();
+
+	EntSetting localEntity;
+	EntSetting enemyEntity;
 
 	std::chrono::system_clock::time_point tp1, tp2;
 	std::chrono::duration<float> elapsedTime;
 	float fElapsedTime;
 	
-	EntSetting localEntity;
-	EntSetting enemyEntity;
-
-	Ent eCosestEnemy;
+	Enemy eCosestEnemy;
 	LocalEnt eLocalEntBase;
-	std::vector<Ent> aEnemyEntListOld;
+	std::vector<Enemy> aEnemyEntListOld;
 
 	std::future<void> f;
 	std::string httpData;

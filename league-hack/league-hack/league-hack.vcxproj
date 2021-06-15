@@ -161,6 +161,7 @@
     <ClInclude Include="drawing.h" />
     <ClInclude Include="hack.h" />
     <ClInclude Include="includes.h" />
+    <ClInclude Include="menu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

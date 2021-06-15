@@ -1,22 +1,72 @@
 #include "includes.h"
+#include "json.hpp"
+
+using json = nlohmann::json;
+
+static void from_json(const json& j, championStats& cs) {
+	j.at("abilityHaste").get_to(cs.abilityHaste);
+	j.at("abilityPower").get_to(cs.abilityPower);
+	j.at("armor").get_to(cs.armor);
+	j.at("armorPenetrationFlat").get_to(cs.armorPenetrationFlat);
+	j.at("armorPenetrationPercent").get_to(cs.armorPenetrationPercent);
+	j.at("attackDamage").get_to(cs.attackDamage);
+	j.at("attackRange").get_to(cs.attackRange);
+	j.at("attackSpeed").get_to(cs.attackSpeed);
+	j.at("bonusArmorPenetrationPercent").get_to(cs.bonusArmorPenetrationPercent);
+	j.at("bonusMagicPenetrationPercent").get_to(cs.bonusMagicPenetrationPercent);
+	j.at("critChance").get_to(cs.critChance);
+	j.at("critDamage").get_to(cs.critDamage);
+	j.at("currentHealth").get_to(cs.currentHealth);
+	j.at("healShieldPower").get_to(cs.healShieldPower);
+	j.at("healthRegenRate").get_to(cs.healthRegenRate);
+	j.at("lifeSteal").get_to(cs.lifeSteal);
+	j.at("magicLethality").get_to(cs.magicLethality);
+	j.at("magicPenetrationFlat").get_to(cs.magicPenetrationFlat);
+	j.at("magicPenetrationPercent").get_to(cs.magicPenetrationPercent);
+	j.at("magicResist").get_to(cs.magicResist);
+	j.at("maxHealth").get_to(cs.maxHealth);
+	j.at("moveSpeed").get_to(cs.moveSpeed);
+	j.at("omnivamp").get_to(cs.omnivamp);
+	j.at("physicalLethality").get_to(cs.physicalLethality);
+	j.at("physicalVamp").get_to(cs.physicalVamp);
+	j.at("resourceMax").get_to(cs.resourceMax);
+	j.at("resourceRegenRate").get_to(cs.resourceRegenRate);
+	j.at("resourceType").get_to(cs.resourceType);
+	j.at("resourceValue").get_to(cs.resourceValue);
+	j.at("spellVamp").get_to(cs.spellVamp);
+	j.at("tenacity").get_to(cs.tenacity);
+}
 
 Hack::Hack() {
+
 	hGameWindow = FindWindow(NULL, L"League of Legends (TM) Client");
 	if (!hGameWindow)
 		return;
 
-	localEntity = EntSetting{ vec2{38 + 5, 60 + 55}, cv::Scalar(0, 41, 45), cv::Scalar(12, 62, 49), 4 };
-	enemyEntity = EntSetting{ vec2{40, 57}, cv::Scalar(0, 2, 50), cv::Scalar(0, 10, 90), 4 };
+	localEntity = EntSetting{ 
+		vec2{38 + 5, 60 + 55}, 
+		cv::Scalar(0, 41, 45), 
+		cv::Scalar(12, 62, 49), 
+		4 
+	};
+
+	enemyEntity = EntSetting{ 
+		vec2{40, 57}, 
+		cv::Scalar(0, 2, 50), 
+		cv::Scalar(0, 10, 90), 
+		4 
+	};
 
 	tp1 = std::chrono::system_clock::now();
 	tp2 = std::chrono::system_clock::now();
+
+	fElapsedTime = 0.0f;
+	fGameTime = 0.0f;
 
 	eLocalEnt = nullptr;
 
 	aEnemyEntList.reserve(5);
 	aEnemyEntListOld.reserve(5);
-
-	fGameTime = 0.0f;
 
 	printf("Hack Init Success!\n");
 }
@@ -32,7 +82,7 @@ void Hack::Update() {
 
 	f = std::async(std::launch::async, HttpRequestGet, "https://127.0.0.1:2999/liveclientdata/allgamedata", &httpData);
 
-	mGameImage = wndCapture();
+	mGameImage = WindowCapture();
 
 	GetLocalEntity();
 	GetLocalEntData();
@@ -129,7 +179,6 @@ void Hack::CalculateEnemyData() {
 
 	int maxEnt;
 
-	// check aEnemyEntList size -- current
 	if (aEnemyEntList.size() < aEnemyEntListOld.size())
 		maxEnt = aEnemyEntList.size();
 	else
@@ -153,7 +202,8 @@ void Hack::GetLocalEntData() {
 		return;
 
 	json j;
-	try 
+
+	try
 	{
 		j = json::parse(httpData);
 	}
@@ -162,19 +212,25 @@ void Hack::GetLocalEntData() {
 		std::cout << ex.id << std::endl;
 		return;
 	}
+
+	json jChampionStats = j["activePlayer"]["championStats"];
+
+	eLocalEntBase.stats = jChampionStats;
+
+	// ScreenAARange
+	float fWorldAARangeRadius = eLocalEntBase.stats.attackRange / 2;
+	float fTheta = 35;
+	float offset = (100.0f - 0.3636f * fWorldAARangeRadius) / 1000.0f;
+
+	eLocalEntBase.vPos.y = eLocalEntBase.vPos.y - eLocalEntBase.vPos.y * offset;
+
+	eLocalEntBase.vScreenAARange.x = fWorldAARangeRadius;
 	
-	json chanponStats = j["activePlayer"]["championStats"];
-
-	eLocalEntBase.fAttackSpeed = chanponStats["attackSpeed"].get<float>();
-	eLocalEntBase.fWorldAARange = chanponStats["attackRange"].get<float>();
-
-	float fWorldAARangeRadius = eLocalEntBase.fWorldAARange / 2;
-	eLocalEntBase.vScreenAARange.x = fWorldAARangeRadius + fWorldAARangeRadius * 1.8f / 100;
-	eLocalEntBase.vScreenAARange.y = fWorldAARangeRadius - fWorldAARangeRadius * 1.8f / 10;
+	eLocalEntBase.vScreenAARange.y = fWorldAARangeRadius * cos(fTheta * PI / 180);
 	
 }
 
-Ent* Hack::GetClosestEnemy(vec2 vRef) {
+Enemy* Hack::GetClosestEnemy(vec2 vRef) {
 
 	float fMaxDist = 999.0f;
 	vec2 vDistance;
@@ -198,16 +254,7 @@ Ent* Hack::GetClosestEnemy(vec2 vRef) {
 	return &eCosestEnemy;
 }
 
-vec2 Hack::PredictEnt(Ent e, float fPredictT) {
-
-	if (e.fMagnitude == 0.0f || e.fMagnitude > 15.f)
-		return vec2{ 0,0 };
-
-	return (e.vDirection / e.fMagnitude) * e.fSpeed * fPredictT;
-
-}
-
-cv::Mat Hack::wndCapture() {
+cv::Mat Hack::WindowCapture() {
 	cv::Mat mGameImage;
 	HDC hdc_target, hdc;
 
@@ -338,3 +385,4 @@ void Hack::MouseMoveSmooth(int dSmoothing, int fDelay, vec2 vPos) {
 	}
 
 }
+

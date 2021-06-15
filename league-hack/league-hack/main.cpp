@@ -1,5 +1,5 @@
 ﻿#include "includes.h"
-#include <random>
+#include "menu.h"
 
 Hack hack;
 Drawing d3d;
@@ -14,11 +14,11 @@ const char* logo = R"(
 	[?] Game Settings:
 	 -  colorblind mode (on)
 	 -  window mode (to overlay)
-	 -  nivel de cor (75)
+	 -  nivel de cor (75+)
 	 -  exibir barra de vida (on)
 	 -  cam mode (fixed)
 	 -  movimentacao com attack (set any key conjunto 2)
-	 -  bind auto attack move to left-click (off)	
+	 -  bind auto attack move to left-click (off)
 
     )";
 
@@ -30,17 +30,13 @@ struct Settings {
 	bool statusText = true;
 	bool predEsp = true;
 	bool aim = true;
+	bool bUseFov = false;
+	int fov = 100;
 	bool uniformDistribution = false;
-	int smooth = 200;
-	int delay = 10;
+	int smooth = 150;
+	int delay = 15;
 	bool orb = true;
 }settings;
-
-
-// human
-//std::default_random_engine generator;
-//std::uniform_int_distribution<int> SmoothDistribution(100, 200);
-//std::uniform_int_distribution<int> DelayDistribution(10, 20);
 
 
 void ESP();
@@ -49,10 +45,8 @@ void Orbwalker​();
 
 
 int main() {
-    
-	printf("%s", logo);
 
-	std::future<void> esp, aim, orb;
+	std::future<void> aim, orb;
 	
     while (!GetAsyncKeyState(VK_HOME))
 	{
@@ -61,12 +55,12 @@ int main() {
 		{
     		hack.Update();
 			
-			esp = std::async(std::launch::async, ESP);
+			ESP();
 			aim = std::async(std::launch::async, AimLock);
 			orb = std::async(std::launch::async, Orbwalker​);
 
     	}
-    	
+
     }
 
     return 0;
@@ -86,11 +80,16 @@ void ESP() {
 
 	// Dummy vars
 	static vec2 vBoxOffset{ 0, 50 };
-	static D3DCOLOR d3dRed = D3DCOLOR_ARGB(255, 255, 0, 0);
+	static D3DCOLOR d3dRed   = D3DCOLOR_ARGB(255, 255, 0, 0);
 	static D3DCOLOR d3dWhite = D3DCOLOR_ARGB(255, 255, 255, 255);
 	static D3DCOLOR d3dGreen = D3DCOLOR_ARGB(255, 0, 255, 0);
 
 	d3d.sRender();
+
+	// FOV
+	//vec2 m = hack.MousePos();
+	//printf("%f, %f\n", m.x, m.y);
+	//d3d.drawCircle(m.x, m.y, settings.fov, 50, 2, d3dWhite);
 
 	// AA Range fake
 	if (hack.eLocalEnt && settings.autoAttackRange)
@@ -105,7 +104,7 @@ void ESP() {
 			// Enemy Id
 			index << hack.aEnemyEntList[i].Id;
 			s = index.str();
-			d3d.drawText((char*)s.c_str(), hack.aEnemyEntList[i].vPos.x, hack.aEnemyEntList[i].vPos.y, D3DCOLOR_ARGB(255, 255, 255, 255));
+			d3d.drawText((char*)s.c_str(), hack.aEnemyEntList[i].vPos.x, hack.aEnemyEntList[i].vPos.y, d3dWhite);
 
 			// Enemy distance
 			vec2 d = hack.aEnemyEntList[i].vPos - hack.eLocalEnt->vPos;
@@ -124,7 +123,7 @@ void ESP() {
 
 		// predict lines
 		if (settings.predEsp) {
-			vec2 vPredict = hack.PredictEnt(hack.aEnemyEntList[i], 0.3f);
+			vec2 vPredict = hack.aEnemyEntList[i].Predict(0.3f);
 			d3d.drawLine(hack.aEnemyEntList[i].vPos, hack.aEnemyEntList[i].vPos + vPredict, 2, d3dGreen);
 		}
 
@@ -139,19 +138,31 @@ void AimLock() {
 	if (!settings.aim)
 		return;
 
-	static int smooth = 0;
-	static int delay = 0;
+	static std::default_random_engine generator;
+	static std::uniform_int_distribution<int> distribution(100, 200);
 
-	if (!settings.uniformDistribution) {
-		smooth = settings.smooth;
-		delay = settings.delay;
+	static int smooth = settings.smooth;
+	static int delay = settings.delay;
+
+	if (settings.uniformDistribution) {
+		smooth = distribution(generator);
+		delay = distribution(generator) / 10;
 	}
 
 	if (GetAsyncKeyState((short)'Q') || GetAsyncKeyState((short)'W') || GetAsyncKeyState((short)'R')) {
 		Ent* enemy = hack.GetClosestEnemy(hack.MousePos());
 
-		if (enemy)
-			hack.MouseMoveSmooth(smooth, delay, enemy->vPos);
+		if (enemy) {
+
+			vec2 dist = enemy->vPos - hack.MousePos();
+
+			float distance = sqrt(dist.x * dist.x + dist.y * dist.y);
+
+			if (!settings.bUseFov || distance <= settings.fov)
+				hack.MouseMoveSmooth(smooth, delay, enemy->vPos);
+
+		}
+			
 	}
 }
 
@@ -163,8 +174,7 @@ void Orbwalker​() {
 	static bool bIsOrbAttackable = true;
 	static bool bIsInside = false;
 	static float fDelay = 0.0f;
-	static float fAttackSpeed = 0.0f;
-
+	
 	vec2 vCursorPos = hack.MousePos();
 
 	if (GetAsyncKeyState(VK_SPACE)) {
@@ -172,12 +182,12 @@ void Orbwalker​() {
 		if (!hack.eLocalEnt)
 			return;
 
-		Ent* enemy = hack.GetClosestEnemy(hack.eLocalEnt->vPos);
+		Enemy* enemy = hack.GetClosestEnemy(hack.eLocalEnt->vPos);
 
 		if (!enemy)
 			return;
 
-		fAttackSpeed = hack.eLocalEnt->fAttackSpeed;
+		float fAttackSpeed = hack.eLocalEnt->stats.attackSpeed;
 
 		bIsInside = hack.eLocalEnt->IsInside(*enemy, 1.5f);
 
