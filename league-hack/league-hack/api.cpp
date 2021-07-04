@@ -14,12 +14,12 @@ namespace
     }
 }
 
-void HttpRequestGet(std::string url, std::string* httpData) {
+void HttpRequestGet(const char* url, std::string* httpData) {
 
     CURL* curl = curl_easy_init();
 
     // Set remote URL.
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, url);
 
     // Don't bother trying IPv6, which would increase DNS resolution time.
     curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);

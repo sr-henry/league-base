@@ -1,3 +1,3 @@
 #pragma once
 
-void HttpRequestGet(std::string url, std::string* httpData);
+void HttpRequestGet(const char* url, std::string* httpData);

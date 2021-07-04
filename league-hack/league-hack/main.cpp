@@ -13,14 +13,13 @@ const char* logo = R"(
 
 	[?] Game Settings:
 	 -  colorblind mode (on)
-	 -  window mode (to overlay)
-	 -  nivel de cor (75+)
-	 -  exibir barra de vida (on)
+	 -  window mode (to ESP)
+	 -  show life bar (on)
 	 -  cam mode (fixed)
 	 -  movimentacao com attack (set any key conjunto 2)
 	 -  bind auto attack move to left-click (off)
 
-    )";
+)";
 
 struct Settings {
 	bool esp = true;
@@ -45,6 +44,8 @@ void Orbwalker​();
 
 
 int main() {
+
+	std::cout << logo;
 
 	std::future<void> aim, orb;
 	
@@ -86,14 +87,10 @@ void ESP() {
 
 	d3d.sRender();
 
-	// FOV
-	//vec2 m = hack.MousePos();
-	//printf("%f, %f\n", m.x, m.y);
-	//d3d.drawCircle(m.x, m.y, settings.fov, 50, 2, d3dWhite);
-
-	// AA Range fake
-	if (hack.eLocalEnt && settings.autoAttackRange)
+	// AA Range
+	if (hack.eLocalEnt && settings.autoAttackRange) {
 		d3d.drawEllipse(hack.eLocalEnt->vPos.x, hack.eLocalEnt->vPos.y, hack.eLocalEnt->vScreenAARange.x, hack.eLocalEnt->vScreenAARange.y, 50, 2, d3dWhite);
+	}
 
 	for (int i = 0; i < hack.aEnemyEntList.size(); i++) {
 
@@ -114,17 +111,19 @@ void ESP() {
 		}
 
 		// box2d
-		if (settings.box2D)
+		if (settings.box2D) {
 			d3d.drawEspBox2D(hack.aEnemyEntList[i].vPos + vBoxOffset, hack.aEnemyEntList[i].vPos - vBoxOffset, 2, d3dRed);
+		}
+			
 
 		// snaplines
-		if (hack.eLocalEnt && settings.snaplines)
+		if (hack.eLocalEnt && settings.snaplines) {
 			d3d.drawLine(hack.eLocalEnt->vPos, hack.aEnemyEntList[i].vPos + vec2{ 5, 40 }, 2, d3dRed);
-
+		}
+			
 		// predict lines
 		if (settings.predEsp) {
-			vec2 vPredict = hack.aEnemyEntList[i].Predict(0.3f);
-			d3d.drawLine(hack.aEnemyEntList[i].vPos, hack.aEnemyEntList[i].vPos + vPredict, 2, d3dGreen);
+			d3d.drawLine(hack.aEnemyEntList[i].vPos, hack.aEnemyEntList[i].Predict(0.3f), 2, d3dGreen);
 		}
 
 	}
@@ -174,7 +173,9 @@ void Orbwalker​() {
 	static bool bIsOrbAttackable = true;
 	static bool bIsInside = false;
 	static float fDelay = 0.0f;
-	
+	static long lWindUpDelay = 80;
+	static const char cAttackMoveKey = 'l';
+
 	vec2 vCursorPos = hack.MousePos();
 
 	if (GetAsyncKeyState(VK_SPACE)) {
@@ -194,10 +195,10 @@ void Orbwalker​() {
 		if (bIsOrbAttackable && bIsInside) {
 
 			hack.MouseMove(enemy->vPos);
-			hack.KeyboardPressKey('l');
+			hack.KeyboardPressKey(cAttackMoveKey);
 			std::this_thread::sleep_for(std::chrono::milliseconds(5));
 			hack.MouseMove(vCursorPos);
-			std::this_thread::sleep_for(std::chrono::milliseconds(80));
+			std::this_thread::sleep_for(std::chrono::milliseconds(lWindUpDelay));
 			hack.MouseRightClick(vCursorPos);
 
 			fDelay = (hack.fGameTime * 1000.0f) + (1000.0f / fAttackSpeed);

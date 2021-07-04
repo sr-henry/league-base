@@ -22,7 +22,6 @@ struct vec2 {
 
 };
 
-
 struct championStats {
 	float abilityHaste;
 	float abilityPower;
@@ -66,32 +65,28 @@ struct EntSetting {
 class Ent 
 {
 public:
-	int Id;
-	vec2 vPos;
+	Ent() {};
+
+	Ent(vec2 pos) { vPos = pos; };
+
+	Ent(int id, vec2 pos) { Id = id; vPos = pos; };
 
 public:
-	Ent() {
-		Id = 0;
-		vPos = vec2{ 0,0 };
-	};
-
-	Ent(int id, vec2 pos) {
-		Id = id;
-		vPos = pos;
-	}
-
+	int Id = 0;
+	vec2 vPos{ 0,0 };
 };
 
 class LocalEnt : public Ent
 {
 public:
 	LocalEnt() : Ent() {};
-	LocalEnt(vec2 pos) : Ent(0, pos) {};
+	LocalEnt(vec2 pos) : Ent(pos) {};
 
 public:
 	championStats stats;
-	vec2 vScreenAARange{ 0,0 };
+	vec2 vScreenAARange;
 
+public:
 	bool IsInside(Ent e, float threshold = 1) {
 		float fRes = (e.vPos.x - vPos.x) * (e.vPos.x - vPos.x) / (vScreenAARange.x * vScreenAARange.x)
 			+ (e.vPos.y - vPos.y) * (e.vPos.y - vPos.y) / (vScreenAARange.y * vScreenAARange.y);
@@ -116,12 +111,13 @@ public:
 	float fMagnitude;
 	float fSpeed;
 
+public:
 	vec2 Predict(float fPredictT) {
 
 		if (fMagnitude == 0.0f || fMagnitude > 15.f)
-			return vec2{ 0,0 };
+			return vPos;
 
-		return (vDirection / fMagnitude) * fSpeed * fPredictT;
+		return vPos + ((vDirection / fMagnitude) * fSpeed * fPredictT);
 	}
 
 };
@@ -130,16 +126,19 @@ public:
 class Hack
 {
 public:
+	Hack();
+
+public:
 	LocalEnt* eLocalEnt;
 	std::vector<Enemy> aEnemyEntList;
 	float fGameTime;
 
 public:
-	Hack();
 	void Update();
-	// vec2 PredictEnt(Enemy e, float fPredictT);
-	Enemy* GetClosestEnemy(vec2 vRef);
 	bool IsGameRunning();
+	Enemy* GetClosestEnemy(vec2 vRef);
+
+public: // Utils
 	vec2 MousePos();
 	void MouseMove(vec2 vPos);
 	void MouseMoveRelative(int x, int y);
@@ -150,8 +149,7 @@ public:
 private:
 	HWND hGameWindow;
 	cv::Mat mGameImage;
-	cv::Mat WindowCapture();
-
+	
 	EntSetting localEntity;
 	EntSetting enemyEntity;
 
@@ -167,6 +165,7 @@ private:
 	std::string httpData;
 
 private:
+	void WindowCapture();
 	void GetEnemyEntities();
 	void CalculateEnemyData();
 	void GetLocalEntity();

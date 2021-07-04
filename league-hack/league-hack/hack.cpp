@@ -43,17 +43,17 @@ Hack::Hack() {
 	if (!hGameWindow)
 		return;
 
-	localEntity = EntSetting{ 
-		vec2{38 + 5, 60 + 55}, 
-		cv::Scalar(0, 41, 45), 
-		cv::Scalar(12, 62, 49), 
+	localEntity = { 
+		vec2{43, 115}, 
+		cv::Scalar(92, 212, 0),
+		cv::Scalar(97, 255, 79),
 		4 
 	};
 
-	enemyEntity = EntSetting{ 
+	enemyEntity = { 
 		vec2{40, 57}, 
-		cv::Scalar(0, 2, 50), 
-		cv::Scalar(0, 10, 90), 
+		cv::Scalar(114, 236, 44),
+		cv::Scalar(119, 255, 67),
 		4 
 	};
 
@@ -68,7 +68,7 @@ Hack::Hack() {
 	aEnemyEntList.reserve(5);
 	aEnemyEntListOld.reserve(5);
 
-	printf("Hack Init Success!\n");
+	std::cout << "Hack Init Success!\n";
 }
 
 void Hack::Update() {
@@ -80,14 +80,18 @@ void Hack::Update() {
 
 	fGameTime += fElapsedTime;
 
-	f = std::async(std::launch::async, HttpRequestGet, "https://127.0.0.1:2999/liveclientdata/allgamedata", &httpData);
+	f = std::async(
+		std::launch::async, 
+		HttpRequestGet,
+		"https://127.0.0.1:2999/liveclientdata/allgamedata", 
+		&httpData
+	);
 
-	mGameImage = WindowCapture();
+	WindowCapture();
 
 	GetLocalEntity();
 	GetLocalEntData();
 
-	aEnemyEntListOld.swap(aEnemyEntList);
 	GetEnemyEntities();
 	CalculateEnemyData();
 }
@@ -97,10 +101,10 @@ void Hack::GetLocalEntity() {
 	cv::Mat mMask;
 	inRange(mGameImage, localEntity.l, localEntity.u, mMask);
 
-	cv::Mat k0 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7));
+	cv::Mat k0 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5));
 	morphologyEx(mMask, mMask, cv::MORPH_OPEN, k0);
 
-	cv::Mat k1 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(15, 15));
+	cv::Mat k1 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(8, 8));
 	dilate(mMask, mMask, k1);
 
 	std::vector<std::vector<cv::Point>> contours;
@@ -133,17 +137,19 @@ void Hack::GetLocalEntity() {
 
 }
 
-void Hack::GetEnemyEntities() { // 2.5ms
+void Hack::GetEnemyEntities() {
+
+	aEnemyEntListOld.swap(aEnemyEntList);
 
 	aEnemyEntList.clear();
 
 	cv::Mat mMask;
 	inRange(mGameImage, enemyEntity.l, enemyEntity.u, mMask);
 
-	cv::Mat k0 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5));
+	cv::Mat k0 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(6, 6));
 	morphologyEx(mMask, mMask, cv::MORPH_OPEN, k0);
 
-	cv::Mat k1 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(15, 15));
+	cv::Mat k1 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(9, 9));
 	dilate(mMask, mMask, k1);
 
 	std::vector<std::vector<cv::Point>> contours;
@@ -254,8 +260,8 @@ Enemy* Hack::GetClosestEnemy(vec2 vRef) {
 	return &eCosestEnemy;
 }
 
-cv::Mat Hack::WindowCapture() {
-	cv::Mat mGameImage;
+void Hack::WindowCapture() {
+
 	HDC hdc_target, hdc;
 
 	RECT rWindowRect;
@@ -267,7 +273,7 @@ cv::Mat Hack::WindowCapture() {
 	int nWindowW = rWindowRect.right;
 
 	// Device context bypass
-	POINT p = { nWindowX, nWindowX };
+	POINT p = { nWindowX, nWindowY };
 	ClientToScreen(hGameWindow, &p);
 
 	hdc_target = GetDC(NULL); // GetWindowDC(hwnd);
@@ -296,9 +302,9 @@ cv::Mat Hack::WindowCapture() {
 	DeleteObject(bmp);
 	DeleteDC(hdc);
 
-	cvtColor(mGameImage, mGameImage, cv::COLOR_RGBA2RGB);
+	cv::cvtColor(mGameImage, mGameImage, cv::COLOR_RGBA2RGB);
+	cv::cvtColor(mGameImage, mGameImage, cv::COLOR_RGB2HSV);
 
-	return mGameImage;
 }
 
 bool Hack::IsGameRunning() {
@@ -307,6 +313,7 @@ bool Hack::IsGameRunning() {
 	return false;
 }
 
+// Utils ---------------------------------------------------
 vec2 Hack::MousePos() {
 	POINT pCursorPos;
 	GetCursorPos(&pCursorPos);
@@ -385,4 +392,3 @@ void Hack::MouseMoveSmooth(int dSmoothing, int fDelay, vec2 vPos) {
 	}
 
 }
-
