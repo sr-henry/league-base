@@ -1,0 +1,5 @@
+﻿  hack.cpp
+C:\Users\Henrique\Desktop\dev\league-hack\league-hack\src\league-base\hack.cpp(126,94): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
+  Generating Code...
+  league-hack.vcxproj -> C:\Users\Henrique\Desktop\dev\league-hack\bin\Debug\league-hack.exe

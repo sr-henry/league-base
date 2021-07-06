@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{9a054220-823f-4ebb-abbe-2d9a63cd7549}</ProjectGuid>
+    <ProjectGuid>{ac58c609-4b14-40eb-8699-a2e249df67d1}</ProjectGuid>
     <RootNamespace>leaguehack</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -50,7 +50,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -72,19 +72,31 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Plataform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin\intermidiates\$(Plataform)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)dependencies\opencv\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dependencies\opencv\x64\vc15\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Plataform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin\intermidiates\$(Plataform)\$(Configuration)\</IntDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\opencv\build\include;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\opencv\build\x64\vc15\lib;$(DXSDK_DIR)Lib\x64;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Plataform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin\intermidiates\$(Plataform)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)dependencies\opencv\include;$(SolutionDir)dependencies\curl\x64 debug\include;$(SolutionDir)dependencies\dxsdk\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dependencies\opencv\x64\vc15\lib;$(SolutionDir)dependencies\curl\x64 debug\lib;$(SolutionDir)dependencies\dxsdk\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\opencv\build\include;$(DXSDK_DIR)Include;C:\curl\x64 release\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\opencv\build\x64\vc15\lib;$(DXSDK_DIR)Lib\x64;C:\curl\x64 release\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Plataform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin\intermidiates\$(Plataform)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)dependencies\opencv\include;$(SolutionDir)dependencies\curl\x64 release\include;$(SolutionDir)dependencies\dxsdk\Include;$(SolutionDir)dependencies\json;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dependencies\opencv\x64\vc15\lib;$(SolutionDir)dependencies\curl\x64 release\lib;$(SolutionDir)dependencies\dxsdk\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -92,7 +104,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>;C:\jsoncpp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -107,7 +118,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>;C:\jsoncpp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,13 +132,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\curl\x64 debug\include;%(AdditionalIncludeDirectories);C:\jsoncpp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\opencv\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\opencv\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Normaliz.lib;Ws2_32.lib;Wldap32.lib;Crypt32.lib;advapi32.lib;opencv_world452d.lib;C:\curl\x64 debug\lib\libcurl_a_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world452d.lib;libcurl_a_debug.lib;Normaliz.lib;Ws2_32.lib;Wldap32.lib;Crypt32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -139,29 +148,26 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\curl\x64 release\include;%(AdditionalIncludeDirectories);C:\jsoncpp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\opencv\build\x64\vc15\lib;C:\curl\x64 release\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opencv_world452.lib;libcurl_a.lib;Normaliz.lib;Ws2_32.lib;Wldap32.lib;Crypt32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="api.cpp" />
-    <ClCompile Include="drawing.cpp" />
-    <ClCompile Include="hack.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\league-base\hack.cpp" />
+    <ClCompile Include="src\league-base\requests.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="api.h" />
-    <ClInclude Include="drawing.h" />
-    <ClInclude Include="hack.h" />
-    <ClInclude Include="includes.h" />
-    <ClInclude Include="menu.h" />
+    <ClInclude Include="src\league-base\activeplayer.h" />
+    <ClInclude Include="src\league-base\hack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
