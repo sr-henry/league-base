@@ -1,7 +1,8 @@
-﻿  main.cpp
+﻿  hack.cpp
+C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\hack.cpp(156,102): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
   Generating code
-  37 of 2261 functions ( 1.6%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
+  Previous IPDB and IOBJ mismatch, fall back to full compilation.
+  All 2384 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   league-hack.vcxproj -> C:\Users\Henrique\Desktop\league-hack\league-hack\bin\Release\league-hack.exe

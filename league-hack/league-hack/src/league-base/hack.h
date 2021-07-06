@@ -1,6 +1,7 @@
 #pragma once
 #include "activeplayer.h"
 #include "vectors.h"
+#include "utils/utils.h"
 #include <future>
 #include <vector>
 #include <Windows.h>
@@ -78,8 +79,9 @@ public:
 
 public:
 	LocalPlayer* localPlayer;
-	std::vector<Enemy> enemyList;
+	std::vector<Enemy> enemiesList;
 	float gameTime;
+	Utils utils;
 
 public:
 	void Update();
@@ -97,7 +99,7 @@ private:
 	float fElapsedTime;
 
 	LocalPlayer b_localPlayer;
-	std::vector<Enemy> p_enemyList;
+	std::vector<Enemy> p_enemiesList;
 
 	std::string sAllGameData;
 	std::future<void> f;

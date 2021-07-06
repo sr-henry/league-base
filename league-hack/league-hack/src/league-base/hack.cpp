@@ -24,11 +24,13 @@ Hack::Hack()
 		4
 	};
 
+	utils = Utils(hGameWindow);
+
 	tp1 = std::chrono::system_clock::now();
 	tp2 = std::chrono::system_clock::now();
 
-	enemyList.reserve(5);
-	p_enemyList.reserve(5);
+	enemiesList.reserve(5);
+	p_enemiesList.reserve(5);
 
 	std::cout << "Hack init success!\n";
 }
@@ -71,11 +73,12 @@ void Hack::GetLocalPlayer()
 
 	cv::Rect boundingBox;
 
-	for (size_t i = 0; i < contours.size(); i++) {
-
+	for (size_t i = 0; i < contours.size(); i++)
+	{
 		cv::approxPolyDP(contours[i], approx[i], 0.1f * cv::arcLength(contours[i], true), true);
 
-		if (approx[i].size() == esLocalPlayer.threshold) {
+		if (approx[i].size() == esLocalPlayer.threshold)
+		{
 			boundingBox = cv::boundingRect(approx[i]);
 
 			float rx = static_cast<float>(boundingBox.x + boundingBox.width);
@@ -106,16 +109,14 @@ void Hack::GetLocalPlayerData()
 		return;
 	}
 
-	json champStats = j["activePlayer"]["championStats"];
-
-	localPlayer->stats = champStats;
+	b_localPlayer.stats = j["activePlayer"]["championStats"];
 }
 
 void Hack::GetEnemies()
 {
-	if (!enemyList.empty()) {
-		p_enemyList.swap(enemyList);
-		enemyList.clear();
+	if (!enemiesList.empty()) {
+		p_enemiesList.swap(enemiesList);
+		enemiesList.clear();
 	}
 
 	cv::Mat mask;
@@ -132,18 +133,19 @@ void Hack::GetEnemies()
 
 	cv::Rect boundingBox;
 	int dEnemiesCount = 0;
-	for (size_t i = 0; i < contours.size(); i++) {
-
+	for (size_t i = 0; i < contours.size(); i++)
+	{
 		cv::approxPolyDP(contours[i], approx[i], 0.1f * cv::arcLength(contours[i], true), true);
 
-		if (approx[i].size() == esEnemy.threshold) {
+		if (approx[i].size() == esEnemy.threshold)
+		{
 			boundingBox = cv::boundingRect(approx[i]);
 
 			float rx = static_cast<float>(boundingBox.x + boundingBox.width);
 			float ry = static_cast<float>(boundingBox.y + boundingBox.height);
 
-			enemyList.emplace_back(dEnemiesCount, vec2{ rx, ry } + esEnemy.offset);
-			
+			enemiesList.emplace_back(dEnemiesCount, vec2{ rx, ry } + esEnemy.offset);
+
 			dEnemiesCount++;
 		}
 	}
@@ -151,12 +153,13 @@ void Hack::GetEnemies()
 
 void Hack::GetEnemiesData()
 {
-	int m_size = (p_enemyList.size() < enemyList.size()) ? p_enemyList.size() : enemyList.size();
+	int m_size = (p_enemiesList.size() < enemiesList.size()) ? p_enemiesList.size() : enemiesList.size();
 
-	for (int i = 0; i < m_size; i++) {
-		enemyList[i].direction = enemyList[i].pos - p_enemyList[i].pos;
-		enemyList[i].magnitude = sqrt(enemyList[i].direction.x * enemyList[i].direction.x + enemyList[i].direction.y * enemyList[i].direction.y);
-		enemyList[i].speed = enemyList[i].magnitude / fElapsedTime;
+	for (int i = 0; i < m_size; i++)
+	{
+		enemiesList[i].direction = enemiesList[i].pos - p_enemiesList[i].pos;
+		enemiesList[i].magnitude = sqrt(enemiesList[i].direction.x * enemiesList[i].direction.x + enemiesList[i].direction.y * enemiesList[i].direction.y);
+		enemiesList[i].speed = enemiesList[i].magnitude / fElapsedTime;
 	}
 }
 
