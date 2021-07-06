@@ -24,12 +24,21 @@
     <ClCompile Include="src\league-base\requests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\league-base\overlay\drawing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\league-base\hack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\league-base\activeplayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\league-base\vectors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\league-base\overlay\drawing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

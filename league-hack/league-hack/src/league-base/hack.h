@@ -1,5 +1,6 @@
 #pragma once
 #include "activeplayer.h"
+#include "vectors.h"
 #include <future>
 #include <vector>
 #include <Windows.h>
@@ -7,28 +8,6 @@
 #include <opencv2/opencv.hpp>
 
 void HttpRequestGet(const char* url, std::string* httpData);
-
-struct vec2
-{
-	float x, y;
-
-	vec2 operator+(const vec2& v) const {
-		return { x + v.x, y + v.y };
-	}
-
-	vec2 operator-(const vec2& v) const {
-		return { x - v.x, y - v.y };
-	}
-
-	vec2 operator*(const float& n) const {
-		return { x * n , y * n };
-	}
-
-	vec2 operator/(const float& n) const {
-		return { x / n, y / n };
-	}
-};
-
 
 struct EntitySettings
 {

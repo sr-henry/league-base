@@ -161,13 +161,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\league-base\overlay\drawing.cpp" />
     <ClCompile Include="src\league-base\hack.cpp" />
     <ClCompile Include="src\league-base\requests.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\league-base\overlay\drawing.h" />
     <ClInclude Include="src\league-base\activeplayer.h" />
     <ClInclude Include="src\league-base\hack.h" />
+    <ClInclude Include="src\league-base\vectors.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
