@@ -15,33 +15,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="hack.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="drawing.cpp">
+    <ClCompile Include="src\league-base\hack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="api.cpp">
+    <ClCompile Include="src\league-base\requests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\league-base\overlay\drawing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\league-base\utils\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="includes.h">
+    <ClInclude Include="src\league-base\hack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hack.h">
+    <ClInclude Include="src\league-base\activeplayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="drawing.h">
+    <ClInclude Include="src\league-base\vectors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="api.h">
+    <ClInclude Include="src\league-base\overlay\drawing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="menu.h">
+    <ClInclude Include="src\league-base\utils\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
