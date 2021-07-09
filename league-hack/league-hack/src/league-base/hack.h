@@ -56,6 +56,7 @@ public:
 class Enemy : public Entity
 {
 public:
+	Enemy() : Entity() {};
 	Enemy(int id, vec2 pos) : Entity(id, pos) {};
 
 public:
@@ -86,6 +87,7 @@ public:
 public:
 	void Update();
 	bool IsGameRunning();
+	Enemy* GetClosestEnemy(vec2 ref);
 
 private:
 	HWND hGameWindow;
@@ -101,8 +103,12 @@ private:
 	LocalPlayer b_localPlayer;
 	std::vector<Enemy> p_enemiesList;
 
+	Enemy closestEnemy;
+
 	std::string sAllGameData;
 	std::future<void> f;
+
+	float fAspectRatio, w, h;
 
 private:
 	void WindowCapture();

@@ -4,7 +4,7 @@ Hack::Hack()
 {
 	hGameWindow = FindWindow(NULL, "League of Legends (TM) Client");
 	if (!hGameWindow)
-		return;
+		exit(1);
 
 	esLocalPlayer = {
 		vec2{43, 115},
@@ -110,6 +110,14 @@ void Hack::GetLocalPlayerData()
 	}
 
 	b_localPlayer.stats = j["activePlayer"]["championStats"];
+
+	float a = h / w;
+
+	float fScreenAARangeRadius = b_localPlayer.stats.attackRange * (1 - a) + 40.f;
+
+	b_localPlayer.vScreenAARange.x = fScreenAARangeRadius;
+	b_localPlayer.vScreenAARange.y = fScreenAARangeRadius * cos(35.f * 3.1415f / 180.f);
+
 }
 
 void Hack::GetEnemies()
@@ -163,6 +171,30 @@ void Hack::GetEnemiesData()
 	}
 }
 
+Enemy* Hack::GetClosestEnemy(vec2 ref)
+{
+	float fMaxDist = 9999.0f;
+	vec2 vDistance;
+	float fDistance;
+
+	if (enemiesList.size() == 0)
+		return nullptr;
+
+	for (int i = 0; i < enemiesList.size(); i++) {
+
+		vDistance = enemiesList[i].pos - ref;
+		fDistance = sqrt(vDistance.x * vDistance.x + vDistance.y * vDistance.y);
+
+		if (fDistance < fMaxDist) {
+			fMaxDist = fDistance;
+			closestEnemy = enemiesList[i];
+		}
+
+	}
+
+	return &closestEnemy;
+}
+
 bool Hack::IsGameRunning()
 {
 	if (hGameWindow == GetForegroundWindow())
@@ -181,6 +213,8 @@ void Hack::WindowCapture()
 	int nWindowY = rWindowRect.top;
 	int nWindowH = rWindowRect.bottom;
 	int nWindowW = rWindowRect.right;
+
+	h = static_cast<float>(nWindowH); w = static_cast<float>(nWindowW);
 
 	POINT p = { nWindowX, nWindowY };
 	ClientToScreen(hGameWindow, &p);

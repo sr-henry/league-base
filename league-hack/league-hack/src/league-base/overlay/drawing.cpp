@@ -3,6 +3,8 @@
 Drawing::Drawing()
 {
     HWND hOverlayWindow = FindWindow(NULL, "O");
+    if (!hOverlayWindow)
+        exit(1);
 
     RECT rect;
     GetWindowRect(hOverlayWindow, &rect);
@@ -113,4 +115,34 @@ void Drawing::Text(const char* text, float x, float y, D3DCOLOR color)
     SetRect(&rect, x, y, x, y);
     fontf->DrawTextA(NULL, text, -1, &rect, DT_CENTER | DT_NOCLIP, color);
 
+}
+
+void Drawing::Circle(vec2 center, int radius, int numSides, int thickness, D3DCOLOR color)
+{
+    Ellipse(center, radius, radius, numSides, thickness, color);
+}
+
+void Drawing::Ellipse(vec2 center, int a, int b, int numSides, int thickness, D3DCOLOR color)
+{
+    if (!linel)
+        D3DXCreateLine(d3dDevice, &linel);
+
+    linel->SetWidth(thickness);
+
+    D3DXVECTOR2 Line[128];
+    float Step = PI * 2.0f / numSides;
+    int Count = 0;
+    for (float t = 0; t < PI * 2.0; t += Step) {
+        float X1 = a * cos(t) + center.x;
+        float Y1 = b * sin(t) + center.y;
+        float X2 = a * cos(t + Step) + center.x;
+        float Y2 = b * sin(t + Step) + center.y;
+        Line[Count].x = X1;
+        Line[Count].y = Y1;
+        Line[Count + 1].x = X2;
+        Line[Count + 1].y = Y2;
+        Count += 2;
+    }
+
+    linel->Draw(Line, Count, color);
 }
