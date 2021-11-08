@@ -5,8 +5,8 @@
   /_/\__/\_,_/\_, /\_,_/\__/   /_//_/\_,_/\__/_/\_\ 
              /___/                                  
 </pre>
-
-> External hack for league of legends (py version rebuild)
+---
+External hack for league of legends (py version rebuild)
 
 ### Features
 - Aim-Lock (FOV / Smooth / Delay)
