@@ -1,38 +1,39 @@
-<pre>
-     __                           __            __  
-    / /__ ___ ____ ___ _____ ____/ /  ___ _____/ /__
-   / / -_) _ `/ _ `/ // / -_)___/ _ \/ _ `/ __/  '_/
-  /_/\__/\_,_/\_, /\_,_/\__/   /_//_/\_,_/\__/_/\_\ 
-             /___/                                  
-</pre>
----
+# league-hack
+
 External hack for league of legends (py version rebuild)
 
-### Features
-- Aim-Lock (FOV / Smooth / Delay)
-- Exernal Overlay (AARange / Snaplines / 2Dbox / Predict Lines / Stream Mode)
-- Orbwalker (WindUpDelay)
-- Moviment Predictor
+Features
+-----
+* Aim-Lock (FOV / Smooth / Delay)
+* Exernal Overlay (AARange / Snaplines / 2Dbox / Predict Lines / Stream Mode)
+* Orbwalker (WindUpDelay)
+* Moviment Predictor
 
-### Game Settings
--  Colorblind mode (on)
--  Window mode (to ESP)
--  Show life bar (on)
--  Cam mode (fixed)
--  Movement with attack (set any key conjunto 2)
--  Bind auto attack move to left-click (off)
+Game Settings
+-----
+* FPS : +144
+* Colorblind Mode : on
+* Show Life Bar : on
+* Cam Mode : fixed
+* Movement With Attack Set 2 : 'L'
+* Bind Auto Attack Move to left-click : off
+* Window Mode (to ESP)
 
-### Benchmark
-- Settings
-  - CPU: Ryzen 5 3600
-  - RAM: 8Gb RAM 
-  - GPU: GTX 750 ti
-  - GAME: +144 fps
-- Result
-  - 11.5% CPU usage
-  - 23Mb Memory usage
-  - 2% GPU usage
+Benchmark
+-----
+| HW  | Setting | Usage |
+|-----|---------|-------|
+| CPU | Ryzen 5 3600 | 11.5% |
+| GPU | GTX 750 ti | 2%    |
+| MEM | 8Gb | 23Mb |
 
+TODOs
+-----
+- Create World2Screen AA Range function 
+- Change screen capture to game capture (like OBS)
+
+Usage
+-----
 [DEMO TUTORIAL](https://youtu.be/aY9wBfSsf7c)
 
 ![](demo.gif)
