@@ -8,7 +8,7 @@ Features
   * FOV
   * Smooth & Delay
   * Movement Predict
-* Exernal Overlay
+* ESP
   * AARange
   * Snaplines
   * 2Dbox
