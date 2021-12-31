@@ -4,10 +4,18 @@ External hack for league of legends (py version rebuild)
 
 Features
 -----
-* Aim-Lock (FOV / Smooth / Delay)
-* Exernal Overlay (AARange / Snaplines / 2Dbox / Predict Lines / Stream Mode)
-* Orbwalker (WindUpDelay)
-* Moviment Predictor
+* Aim-Lock
+  * FOV
+  * Smooth & Delay
+  * Movement Predict
+* Exernal Overlay
+  * AARange
+  * Snaplines
+  * 2Dbox
+  * Predict Lines
+  * Stream Mode (game capture)
+* Orbwalker
+  * WindUpDelay
 
 Game Settings
 -----
@@ -29,8 +37,9 @@ Benchmark
 
 TODOs
 -----
-- Create World2Screen AA Range function 
+- Create World2Screen AARange function 
 - Change screen capture to game capture (like OBS)
+- Improve local player detection (bugs on summoners rift)
 
 Usage
 -----
