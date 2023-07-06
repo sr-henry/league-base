@@ -6,24 +6,6 @@ Hack::Hack()
 	if (!hGameWindow)
 		exit(1);
 
-	esLocalPlayer = {
-		vec2{43, 115},
-		cv::Scalar(92, 212, 0),
-		cv::Scalar(97, 255, 79),
-		cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5)),
-		cv::getStructuringElement(cv::MORPH_RECT, cv::Size(8, 8)),
-		4
-	};
-
-	esEnemy = {
-		vec2{40, 57},
-		cv::Scalar(114, 236, 44),
-		cv::Scalar(119, 255, 67),
-		cv::getStructuringElement(cv::MORPH_RECT, cv::Size(6, 6)),
-		cv::getStructuringElement(cv::MORPH_RECT, cv::Size(9, 9)),
-		4
-	};
-
 	utils = Utils(hGameWindow);
 
 	tp1 = std::chrono::system_clock::now();
@@ -33,6 +15,10 @@ Hack::Hack()
 	p_enemiesList.reserve(5);
 
 	std::cout << "Hack init success!\n";
+}
+
+Hack::~Hack() {
+	cv::destroyAllWindows();
 }
 
 void Hack::Update()
@@ -57,40 +43,82 @@ void Hack::Update()
 	GetEnemiesData();
 }
 
+vec2 GetLocalPlayer2(cv::Mat image)
+{
+	// Binarize the image (convert to binary image)
+	cv::Mat binaryImage;
+	cv::threshold(image, binaryImage, 0, 255, cv::THRESH_BINARY);
+
+	// Find connected components
+	cv::Mat labels, stats, centroids;
+	int numComponents = cv::connectedComponentsWithStats(binaryImage, labels, stats, centroids);
+
+	// Iterate over the components (excluding background component)
+	for (int label = 1; label < numComponents; ++label)
+	{
+		// Check the area of the component
+		int area = stats.at<int>(label, cv::CC_STAT_AREA);
+
+		// Consider only components above a certain threshold
+		int areaThreshold = 100; // Adjust this threshold as needed
+		if (area > areaThreshold)
+		{
+			// Get the centroid of the component
+			//cv::Point centroid(centroids.at<double>(label, 0), centroids.at<double>(label, 1));
+
+			//std::cout << "Centroid of component " << label << ": (" << centroid.x << ", " << centroid.y << ")" << std::endl;
+
+			return vec2{ (float)centroids.at<double>(label, 0), (float)centroids.at<double>(label, 1) };
+
+			// Print the centroid coordinates
+			
+		}
+	}
+}
+
 void Hack::GetLocalPlayer()
 {
 	cv::Mat mask;
-	cv::inRange(mGameImage, esLocalPlayer.l, esLocalPlayer.u, mask);
+	cv::inRange(mGameImage, cv::Scalar(91, 220, 43), cv::Scalar(102, 255, 69), mask);
 
-	cv::morphologyEx(mask, mask, cv::MORPH_OPEN, esLocalPlayer.k0);
+	cv::Mat kernel0 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7));
+	cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel0);
 
-	cv::dilate(mask, mask, esLocalPlayer.k1);
+	cv::Mat kernel1 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5));
+	cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel1);
+	
+	cv::Mat binaryImage;
+	cv::threshold(mask, binaryImage, 0, 255, cv::THRESH_BINARY);
 
-	std::vector<std::vector<cv::Point>> contours;
-	cv::findContours(mask, contours, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
+	// Find connected components
+	cv::Mat labels, stats, centroids;
+	int numComponents = cv::connectedComponentsWithStats(binaryImage, labels, stats, centroids);
 
-	std::vector<std::vector<cv::Point>> approx(contours.size());
-
-	cv::Rect boundingBox;
-
-	for (size_t i = 0; i < contours.size(); i++)
+	// Iterate over the components (excluding background component)
+	for (int label = 1; label < numComponents; ++label)
 	{
-		cv::approxPolyDP(contours[i], approx[i], 0.1f * cv::arcLength(contours[i], true), true);
+		// Check the area of the component
+		int area = stats.at<int>(label, cv::CC_STAT_AREA);
 
-		if (approx[i].size() == esLocalPlayer.threshold)
+		// Consider only components above a certain threshold
+		if (area > 100)
 		{
-			boundingBox = cv::boundingRect(approx[i]);
+			b_localPlayer = {
+				vec2{ 
+					(float)centroids.at<double>(label, 0) + 60, 
+					(float)centroids.at<double>(label, 1) + 100 
+				}
+			};
 
-			float rx = static_cast<float>(boundingBox.x + boundingBox.width);
-			float ry = static_cast<float>(boundingBox.y + boundingBox.height);
-
-			b_localPlayer = { vec2{rx, ry} + esLocalPlayer.offset };
-		
 			localPlayer = &b_localPlayer;
 			return;
 		}
 	}
+
 	localPlayer = nullptr;
+	//cv::imshow("LocalPlayer", mGameImage);
+	//cv::waitKey(1);
+	
 }
 
 void Hack::GetLocalPlayerData()
@@ -104,8 +132,8 @@ void Hack::GetLocalPlayerData()
 		j = json::parse(sAllGameData);
 	}
 	catch (json::parse_error& ex) {
-		std::cout << ex.what() << std::endl;
-		std::cout << ex.id << std::endl;
+		//std::cout << ex.what() << std::endl;
+		//std::cout << ex.id << std::endl;
 		return;
 	}
 
@@ -128,31 +156,37 @@ void Hack::GetEnemies()
 	}
 
 	cv::Mat mask;
-	cv::inRange(mGameImage, esEnemy.l, esEnemy.u, mask);
+	cv::inRange(mGameImage, cv::Scalar(100, 245, 43), cv::Scalar(128, 255, 69), mask);
 
-	cv::morphologyEx(mask, mask, cv::MORPH_OPEN, esEnemy.k0);
+	cv::Mat kernel0 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7));
+	cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel0);
 
-	cv::dilate(mask, mask, esEnemy.k1);
+	cv::Mat kernel1 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5));
+	cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel1);
 
-	std::vector<std::vector<cv::Point>> contours;
-	cv::findContours(mask, contours, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
+	cv::Mat binaryImage;
+	cv::threshold(mask, binaryImage, 0, 255, cv::THRESH_BINARY);
 
-	std::vector<std::vector<cv::Point>> approx(contours.size());
+	// Find connected components
+	cv::Mat labels, stats, centroids;
+	int numComponents = cv::connectedComponentsWithStats(binaryImage, labels, stats, centroids);
 
-	cv::Rect boundingBox;
 	int dEnemiesCount = 0;
-	for (size_t i = 0; i < contours.size(); i++)
+	// Iterate over the components (excluding background component)
+	for (int label = 1; label < numComponents; ++label)
 	{
-		cv::approxPolyDP(contours[i], approx[i], 0.1f * cv::arcLength(contours[i], true), true);
+		// Check the area of the component
+		int area = stats.at<int>(label, cv::CC_STAT_AREA);
 
-		if (approx[i].size() == esEnemy.threshold)
+		if (area > 150)
 		{
-			boundingBox = cv::boundingRect(approx[i]);
-
-			float rx = static_cast<float>(boundingBox.x + boundingBox.width);
-			float ry = static_cast<float>(boundingBox.y + boundingBox.height);
-
-			enemiesList.emplace_back(dEnemiesCount, vec2{ rx, ry } + esEnemy.offset);
+			enemiesList.emplace_back(
+				dEnemiesCount,
+				vec2{
+					(float)centroids.at<double>(label, 0) + 60,
+					(float)centroids.at<double>(label, 1) + 100
+				}
+			);
 
 			dEnemiesCount++;
 		}

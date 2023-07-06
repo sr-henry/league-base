@@ -24,6 +24,8 @@ public:
 
 	void MouseRightClick(vec2 pos);
 
+	void MouseLeftClick(vec2 pos);
+
 	void KeyboardPressKey(char key);
 };
 

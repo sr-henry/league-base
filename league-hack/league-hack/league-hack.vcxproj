@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -163,14 +163,31 @@
   <ItemGroup>
     <ClCompile Include="src\league-base\overlay\drawing.cpp" />
     <ClCompile Include="src\league-base\hack.cpp" />
-    <ClCompile Include="src\league-base\requests.cpp" />
+    <ClCompile Include="src\league-base\client\requests.cpp" />
+    <ClCompile Include="src\league-base\overlay\imgui\imgui.cpp" />
+    <ClCompile Include="src\league-base\overlay\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\league-base\overlay\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\league-base\overlay\imgui\imgui_impl_dx9.cpp" />
+    <ClCompile Include="src\league-base\overlay\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="src\league-base\overlay\imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\league-base\overlay\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\league-base\overlay\window.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\league-base\utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\league-base\overlay\drawing.h" />
-    <ClInclude Include="src\league-base\activeplayer.h" />
+    <ClInclude Include="src\league-base\client\activeplayer.h" />
     <ClInclude Include="src\league-base\hack.h" />
+    <ClInclude Include="src\league-base\overlay\imgui\imconfig.h" />
+    <ClInclude Include="src\league-base\overlay\imgui\imgui.h" />
+    <ClInclude Include="src\league-base\overlay\imgui\imgui_impl_dx9.h" />
+    <ClInclude Include="src\league-base\overlay\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="src\league-base\overlay\imgui\imgui_internal.h" />
+    <ClInclude Include="src\league-base\overlay\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\league-base\overlay\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\league-base\overlay\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\league-base\overlay\window.h" />
     <ClInclude Include="src\league-base\vectors.h" />
     <ClInclude Include="src\league-base\utils\utils.h" />
   </ItemGroup>

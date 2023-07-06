@@ -1,23 +1,16 @@
 #pragma once
-#include "activeplayer.h"
-#include "vectors.h"
-#include "utils/utils.h"
-#include <future>
-#include <vector>
+
 #include <Windows.h>
+#include <vector>
 #include <chrono>
+#include <future>
 #include <opencv2/opencv.hpp>
 
+#include "client/activeplayer.h"
+#include "vectors.h"
+#include "utils/utils.h"
+
 void HttpRequestGet(const char* url, std::string* httpData);
-
-struct EntitySettings
-{
-	vec2 offset;
-	cv::Scalar l, u;
-	cv::Mat k0, k1;
-	int threshold;
-};
-
 
 class Entity
 {
@@ -77,6 +70,7 @@ class Hack
 {
 public:
 	Hack();
+	~Hack();
 
 public:
 	LocalPlayer* localPlayer;
@@ -92,9 +86,6 @@ public:
 private:
 	HWND hGameWindow;
 	cv::Mat mGameImage;
-
-	EntitySettings esLocalPlayer;
-	EntitySettings esEnemy;
 
 	std::chrono::system_clock::time_point tp1, tp2;
 	std::chrono::duration<float> elapsedTime;
