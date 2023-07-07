@@ -151,6 +151,7 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -161,7 +162,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\league-base\overlay\drawing.cpp" />
     <ClCompile Include="src\league-base\hack.cpp" />
     <ClCompile Include="src\league-base\client\requests.cpp" />
     <ClCompile Include="src\league-base\overlay\imgui\imgui.cpp" />
@@ -176,7 +176,6 @@
     <ClCompile Include="src\league-base\utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\league-base\overlay\drawing.h" />
     <ClInclude Include="src\league-base\client\activeplayer.h" />
     <ClInclude Include="src\league-base\hack.h" />
     <ClInclude Include="src\league-base\overlay\imgui\imconfig.h" />

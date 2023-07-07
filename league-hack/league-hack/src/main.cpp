@@ -34,26 +34,32 @@ int main()
 	{
 		Overlay::BeginRender();
 
+		if (GetAsyncKeyState(VK_INSERT) & 1)
+			Overlay::open = !Overlay::open;
+
 		if (hack.IsGameRunning())
 		{
 			hack.Update();
 
-			//esp = std::async(std::launch::async, ESP);
-			
-			for (auto e : hack.enemiesList)
-			{
-				Overlay::Box2D(e.pos, { 5, 40 }, 2, RED);
-			}
+			//for (auto enemy : hack.enemiesList)
+			//{
+			//	Overlay::Box2D(enemy.pos, { 0,30 }, 2, RED);
+			//	Overlay::Line(enemy.pos, enemy.Predict(0.2f), 2, GREEN);
+			//}
 
+			//esp = std::async(std::launch::async, ESP);
 			aim = std::async(std::launch::async, AimLock);
 			orb = std::async(std::launch::async, Orbwalker​);
 		}
+
+		if (Overlay::open)
+			Overlay::RenderImgui();
 
 		Overlay::EndRender();
 		
 		// lower the number, lower the fps, be aware!
 		// however, with a lower number the aimlock will be faster
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
 	Overlay::DestroyImgui();
@@ -70,9 +76,6 @@ void ESP()
 	static bool snaplines = false;
 	static bool box2d = true;
 	static bool predictlines = false;
-
-	
-	
 
 
 }

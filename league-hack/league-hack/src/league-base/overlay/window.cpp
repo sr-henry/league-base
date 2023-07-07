@@ -7,7 +7,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+    if (Overlay::open && ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
         return true;
 
     switch (message)
@@ -27,9 +27,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-void Overlay::CreateOverlayWindow(
-	LPCWSTR sTargetWindowName
-) noexcept
+
+// Window
+void Overlay::CreateOverlayWindow(LPCWSTR sTargetWindowName) noexcept
 {
     thWnd = FindWindowW(0, sTargetWindowName);
     if (!thWnd)
@@ -55,8 +55,8 @@ void Overlay::CreateOverlayWindow(
     RegisterClassExW(&wc);
 
     ohWnd = CreateWindowExW(
-        WS_EX_TOPMOST  | WS_EX_LAYERED, // WS_EX_TRANSPARENT
-        sOverlayWindowName,
+        WS_EX_TOPMOST  | WS_EX_LAYERED, //| WS_EX_TRANSPARENT,
+        wc.lpszClassName,
         sOverlayWindowName,
         WS_POPUP,
         1, 1,
@@ -80,6 +80,7 @@ void Overlay::DestroyOverlayWindow() noexcept
     UnregisterClassW(wc.lpszClassName, wc.hInstance);
 }
 
+// D3d9
 bool Overlay::CreateDeviceD3D() noexcept
 {
     if (FAILED(Direct3DCreate9Ex(D3D_SDK_VERSION, &g_pD3D)))
@@ -130,83 +131,14 @@ void Overlay::ResetDevice() noexcept
     ImGui_ImplDX9_CreateDeviceObjects();
 }
 
-void Overlay::RenderImgui() noexcept
-{
-    ImGui_ImplDX9_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-
-    ImGui::NewFrame();
-    {
-        static float f = 0.0f;
-        static int counter = 0;
-
-        ImGui::Begin("league-base");                          // Create a window called "Hello, world!" and append into it.
-
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::End();
-    }
-    ImGui::EndFrame();
-}
-
-void Overlay::BeginRender() noexcept
-{
-    MSG msg;
-    while (PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
-    {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-
-        GetWindowRect(thWnd, &rect);
-        WIDTH = rect.right - rect.left;
-        HEIGHT = rect.bottom - rect.top;
-        MoveWindow(ohWnd, rect.left, rect.top, WIDTH, HEIGHT, true);
-    }
-
-    RenderImgui();
-
-    g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
-    g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-
-    g_pd3dDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 1.0f, 0);
-    if (g_pd3dDevice->BeginScene() >= 0)
-    {
-        ImGui::Render();
-        ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-    }
-}
-
-
-
-void Overlay::EndRender() noexcept
-{
-    g_pd3dDevice->EndScene();
-    
-    HRESULT result = g_pd3dDevice->Present(nullptr, nullptr, nullptr, nullptr);
-    if (result == D3DERR_DEVICELOST && g_pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
-    {
-        ResetDevice();
-    }
-}
-
-
+// Imgui
 void Overlay::CreateImgui() noexcept
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    //ImGuiIO& io = ImGui::GetIO(); (void)io;
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     ImGui::StyleColorsDark();
 
@@ -222,7 +154,76 @@ void Overlay::DestroyImgui() noexcept
     ImGui::DestroyContext();
 }
 
+void Overlay::RenderImgui() noexcept
+{
+    ImGui_ImplDX9_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
 
+    {
+        static float f = 0.0f;
+        static int counter = 0;
+
+        ImGui::Begin("league-base", &Overlay::open);
+
+        ImGui::Text("This is some useful text.");
+        ImGui::Checkbox("Demo Window", &show_demo_window);
+        ImGui::Checkbox("Another Window", &show_another_window);
+
+        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+        if (ImGui::Button("Button"))
+            counter++;
+        ImGui::SameLine();
+        ImGui::Text("counter = %d", counter);
+
+        ImGui::End();
+    }
+
+    ImGui::EndFrame();
+    ImGui::Render();
+    ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+}
+
+
+// Render
+void Overlay::BeginRender() noexcept
+{
+    MSG msg;
+    while (PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+
+        GetWindowRect(thWnd, &rect);
+        WIDTH = rect.right - rect.left;
+        HEIGHT = rect.bottom - rect.top;
+        MoveWindow(ohWnd, rect.left, rect.top, WIDTH, HEIGHT, true);
+    }
+
+    g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+    g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    g_pd3dDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+
+    g_pd3dDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 1.0f, 0);
+    g_pd3dDevice->BeginScene();
+}
+
+void Overlay::EndRender() noexcept
+{
+    /*if (Overlay::open)
+        RenderImgui();*/
+
+    g_pd3dDevice->EndScene();
+    
+    HRESULT result = g_pd3dDevice->Present(nullptr, nullptr, nullptr, nullptr);
+    if (result == D3DERR_DEVICELOST && g_pd3dDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
+    {
+        ResetDevice();
+    }
+}
+
+
+// D3d9 drawing
 void Overlay::Circle(vec2 center, int radius, int numSides, int thickness, D3DCOLOR color)
 {
     Ellipse(center, radius, radius, numSides, thickness, color);
@@ -301,5 +302,4 @@ void Overlay::Text(const char* text, float x, float y, D3DCOLOR color)
 
     SetRect(&rect, x, y, x, y);
     fontf->DrawTextA(NULL, text, -1, &rect, DT_CENTER | DT_NOCLIP, color);
-
 }

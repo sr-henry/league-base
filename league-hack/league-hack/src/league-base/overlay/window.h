@@ -19,30 +19,31 @@ enum Colors
 
 namespace Overlay
 {
-	static WCHAR sOverlayWindowName[100] = L"league-overlay";
+	inline bool open = true;
 
-	static bool show_demo_window, show_another_window;
+	inline WCHAR sOverlayWindowName[100] = L"league-overlay";
+
+	inline bool show_demo_window, show_another_window;
 	
-	static RECT rect;
-	static int WIDTH = 0;
-	static int HEIGHT = 0;
+	inline RECT rect;
+	inline int WIDTH = 0;
+	inline int HEIGHT = 0;
 	
 	// Window data
-	static HWND thWnd = nullptr;
-	static HWND ohWnd = nullptr;
-	static WNDCLASSEXW wc = { };
+	inline HWND thWnd = nullptr;
+	inline HWND ohWnd = nullptr;
+	inline WNDCLASSEXW wc = { };
 
 	// D3d9 data
-	static IDirect3D9Ex* g_pD3D = NULL;
-	static IDirect3DDevice9Ex* g_pd3dDevice = NULL;
-	static D3DPRESENT_PARAMETERS g_d3dpp;
-	static ID3DXLine* linel;
-	static ID3DXFont* fontf;
+	inline IDirect3D9Ex* g_pD3D = NULL;
+	inline IDirect3DDevice9Ex* g_pd3dDevice = NULL;
+	inline D3DPRESENT_PARAMETERS g_d3dpp;
+	inline ID3DXLine* linel;
+	inline ID3DXFont* fontf;
 	
 	void CreateOverlayWindow(
 		LPCWSTR sTargetWindowName
 	) noexcept;
-
 	void DestroyOverlayWindow() noexcept;
 
 	bool CreateDeviceD3D() noexcept;

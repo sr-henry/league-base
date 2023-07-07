@@ -6,14 +6,14 @@ Features
 -----
 * Aim-Lock
   * FOV
-  * Smooth & Delay
+  * ~~Smooth & Delay~~
   * Movement Predict
-* ESP
-  * AARange
-  * Snaplines
-  * 2Dbox
-  * Predict Lines
-  * Stream Mode (game capture)
+* ~~ESP~~
+  * ~~AARange~~
+  * ~~Snaplines~~
+  * ~~2Dbox~~
+  * ~~Predict Lines~~
+  * ~~Stream Mode (game capture)~~
 * Orbwalker
   * WindUpDelay
 
