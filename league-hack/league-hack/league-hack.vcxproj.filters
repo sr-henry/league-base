@@ -18,7 +18,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\league-base\hack.cpp">
+    <ClCompile Include="src\league-base\core\hack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\league-base\client\requests.cpp">
@@ -51,15 +51,24 @@
     <ClCompile Include="src\league-base\overlay\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\league-base\overlay\menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\league-base\game\objects.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\league-base\base.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\league-base\hack.h">
+    <ClInclude Include="src\league-base\core\hack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\league-base\client\activeplayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\league-base\vectors.h">
+    <ClInclude Include="src\league-base\game\vectors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\league-base\utils\utils.h">
@@ -90,6 +99,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\league-base\overlay\imgui\imstb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\league-base\overlay\menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\features\aimlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\features\orbwalker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

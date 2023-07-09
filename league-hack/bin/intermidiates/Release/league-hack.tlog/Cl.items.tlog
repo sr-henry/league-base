@@ -1,5 +1,6 @@
-C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\drawing.obj
-C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\hack.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\hack.obj
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\base.h;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\base.h.obj
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\game\objects.h;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\objects.h.obj
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\core\hack.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\hack.obj
 C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\client\requests.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\requests.obj
 C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\imgui\imgui.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\imgui.obj
 C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\imgui\imgui_demo.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\imgui_demo.obj
@@ -8,6 +9,7 @@ C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-ba
 C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\imgui\imgui_impl_win32.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\imgui_impl_win32.obj
 C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\imgui\imgui_tables.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\imgui_tables.obj
 C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\imgui\imgui_widgets.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\imgui_widgets.obj
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\menu.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\menu.obj
 C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\window.obj
 C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\main.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\main.obj
 C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\utils\utils.cpp;C:\Users\Henrique\source\repos\league-hack\league-hack\bin\intermidiates\Release\utils.obj

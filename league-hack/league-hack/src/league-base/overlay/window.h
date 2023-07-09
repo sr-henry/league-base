@@ -5,7 +5,8 @@
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
 
-#include "../vectors.h"
+#include "../game/vectors.h"
+#include "menu.h"
 
 #define PI 3.14159265358979323846
 
@@ -19,12 +20,8 @@ enum Colors
 
 namespace Overlay
 {
-	inline bool open = true;
-
 	inline WCHAR sOverlayWindowName[100] = L"league-overlay";
 
-	inline bool show_demo_window, show_another_window;
-	
 	inline RECT rect;
 	inline int WIDTH = 0;
 	inline int HEIGHT = 0;
@@ -55,11 +52,11 @@ namespace Overlay
 
 	void CreateImgui() noexcept;
 	void DestroyImgui() noexcept;
-	void RenderImgui() noexcept;
+	void RenderMenu() noexcept;
 
 	void Line(vec2 src, vec2 dst, int thickness, D3DCOLOR color);
 	void Box2D(vec2 center, vec2 offset, int thickness, D3DCOLOR color);
-	void Text(const char* text, float x, float y, D3DCOLOR color);
+	void Text(const char* text, vec2 position, D3DCOLOR color);
 	void Ellipse(vec2 center, int a, int b, int numSides, int thickness, D3DCOLOR color);
 	void Circle(vec2 center, int radius, int numSides, int thickness, D3DCOLOR color);
 }

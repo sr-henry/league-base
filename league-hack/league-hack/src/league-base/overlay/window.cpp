@@ -7,7 +7,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    if (Overlay::open && ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+    if (Menu::open && ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
         return true;
 
     switch (message)
@@ -136,10 +136,7 @@ void Overlay::CreateImgui() noexcept
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    //ImGuiIO& io = ImGui::GetIO(); (void)io;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
+   
     ImGui::StyleColorsDark();
 
     // Setup Platform/Renderer backends
@@ -154,34 +151,20 @@ void Overlay::DestroyImgui() noexcept
     ImGui::DestroyContext();
 }
 
-void Overlay::RenderImgui() noexcept
+void Overlay::RenderMenu() noexcept
 {
-    ImGui_ImplDX9_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-    ImGui::NewFrame();
-
+    if (Menu::open)
     {
-        static float f = 0.0f;
-        static int counter = 0;
+        ImGui_ImplDX9_NewFrame();
+        ImGui_ImplWin32_NewFrame();
+        ImGui::NewFrame();
 
-        ImGui::Begin("league-base", &Overlay::open);
+        Menu::RenderUI();
 
-        ImGui::Text("This is some useful text.");
-        ImGui::Checkbox("Demo Window", &show_demo_window);
-        ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-        if (ImGui::Button("Button"))
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::End();
+        ImGui::EndFrame();
+        ImGui::Render();
+        ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
     }
-
-    ImGui::EndFrame();
-    ImGui::Render();
-    ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 }
 
 
@@ -290,16 +273,16 @@ void Overlay::Box2D(vec2 center, vec2 offset, int thickness, D3DCOLOR color)
     Line(tr, br, thickness, color);
 }
 
-void Overlay::Text(const char* text, float x, float y, D3DCOLOR color)
+void Overlay::Text(const char* text, vec2 position, D3DCOLOR color)
 {
     if (!fontf)
         D3DXCreateFont(g_pd3dDevice, 20, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial", &fontf);
 
     RECT rect;
 
-    SetRect(&rect, x + 1, y + 1, x + 1, y + 1);
+    SetRect(&rect, position.x + 1, position.y + 1, position.x + 1, position.y + 1);
     fontf->DrawTextA(NULL, text, -1, &rect, DT_CENTER | DT_NOCLIP, D3DCOLOR_ARGB(255, 1, 1, 1));
 
-    SetRect(&rect, x, y, x, y);
+    SetRect(&rect, position.x, position.y, position.x, position.y);
     fontf->DrawTextA(NULL, text, -1, &rect, DT_CENTER | DT_NOCLIP, color);
 }

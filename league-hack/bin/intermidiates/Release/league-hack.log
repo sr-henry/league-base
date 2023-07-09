@@ -1,7 +1,31 @@
-﻿  main.cpp
+﻿  Scanning sources for module dependencies...
+  base.h
+  Compiling...
+  base.h
+C:\Users\Henrique\source\repos\league-hack\league-hack\dependencies\opencv\include\opencv2\flann\allocator.h(73,18): warning C5260: the constant variable 'cvflann::WORDSIZE' has internal linkage in an included header file context, but external linkage in imported header unit context; consider declaring it 'inline' as well if it will be shared across translation units, or 'static' to express intent to use it local to this translation unit
+C:\Users\Henrique\source\repos\league-hack\league-hack\dependencies\opencv\include\opencv2\flann\allocator.h(74,19): warning C5260: the constant variable 'cvflann::BLOCKSIZE' has internal linkage in an included header file context, but external linkage in imported header unit context; consider declaring it 'inline' as well if it will be shared across translation units, or 'static' to express intent to use it local to this translation unit
+C:\Users\Henrique\source\repos\league-hack\league-hack\dependencies\json\json.hpp(14643,15): warning C5260: the constant variable 'nlohmann::detail::dtoa_impl::kAlpha' has internal linkage in an included header file context, but external linkage in imported header unit context; consider declaring it 'inline' as well if it will be shared across translation units, or 'static' to express intent to use it local to this translation unit
+C:\Users\Henrique\source\repos\league-hack\league-hack\dependencies\json\json.hpp(14644,15): warning C5260: the constant variable 'nlohmann::detail::dtoa_impl::kGamma' has internal linkage in an included header file context, but external linkage in imported header unit context; consider declaring it 'inline' as well if it will be shared across translation units, or 'static' to express intent to use it local to this translation unit
+  window.cpp
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(220,21): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(223,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(226,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(227,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(228,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(229,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(249,21): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(283,79): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(283,63): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(283,47): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(283,31): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(286,64): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(286,52): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(286,40): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\overlay\window.cpp(286,28): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  main.cpp
   Generating code
-  1 of 3894 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    18 functions had inline decision re-evaluated but remain unchanged
+  8 of 3905 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    39 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   league-hack.vcxproj -> C:\Users\Henrique\source\repos\league-hack\league-hack\bin\Release\league-hack.exe

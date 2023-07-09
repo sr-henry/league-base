@@ -2,7 +2,8 @@
 #include <thread>
 #include <chrono>
 #include <Windows.h>
-#include "../vectors.h"
+
+#include "../game/vectors.h"
 
 class Utils
 {
