@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 struct vec2
 {
@@ -18,6 +19,10 @@ struct vec2
 
 	vec2 operator/(const float& n) const {
 		return { x / n, y / n };
+	}
+
+	float operator>>(const vec2& v) const {
+		return std::sqrt((x - v.x) * (x - v.x) + (y - v.y) * (y - v.y));
 	}
 };
 

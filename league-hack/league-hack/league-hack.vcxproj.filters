@@ -104,10 +104,7 @@
     <ClInclude Include="src\league-base\overlay\menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\features\aimlock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\features\orbwalker.h">
+    <ClInclude Include="src\league-base\client\requests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,10 +1,6 @@
 ﻿#pragma once
 #include "core/hack.h"
-#include "overlay/window.h"
 
-namespace LeagueBase {
-
+namespace league_base {
 	inline Hack hack;
-
 }
-

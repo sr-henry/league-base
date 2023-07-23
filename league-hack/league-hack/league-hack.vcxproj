@@ -152,6 +152,9 @@
       </AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -179,9 +182,8 @@
     <ClCompile Include="src\league-base\utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\features\aimlock.h" />
-    <ClInclude Include="src\features\orbwalker.h" />
     <ClInclude Include="src\league-base\client\activeplayer.h" />
+    <ClInclude Include="src\league-base\client\requests.h" />
     <ClInclude Include="src\league-base\core\hack.h" />
     <ClInclude Include="src\league-base\overlay\imgui\imconfig.h" />
     <ClInclude Include="src\league-base\overlay\imgui\imgui.h" />

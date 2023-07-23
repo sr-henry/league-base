@@ -27,9 +27,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
+Overlay::Overlay()
+{
+    sTargetWindowName = L"League of Legends (TM) Client";
+    sOverlayWindowName = L"league-overlay";
+    CreateOverlayWindow();
+    CreateDeviceD3D();
+    CreateImgui();
+}
+
+Overlay::~Overlay()
+{
+    DestroyImgui();
+    DestroyDeviceD3D();
+    DestroyOverlayWindow();
+}
 
 // Window
-void Overlay::CreateOverlayWindow(LPCWSTR sTargetWindowName) noexcept
+void Overlay::CreateOverlayWindow() noexcept
 {
     thWnd = FindWindowW(0, sTargetWindowName);
     if (!thWnd)
@@ -55,7 +70,7 @@ void Overlay::CreateOverlayWindow(LPCWSTR sTargetWindowName) noexcept
     RegisterClassExW(&wc);
 
     ohWnd = CreateWindowExW(
-        WS_EX_TOPMOST  | WS_EX_LAYERED, //| WS_EX_TRANSPARENT,
+        WS_EX_TOPMOST  | WS_EX_LAYERED,// | WS_EX_TRANSPARENT,
         wc.lpszClassName,
         sOverlayWindowName,
         WS_POPUP,
@@ -153,6 +168,9 @@ void Overlay::DestroyImgui() noexcept
 
 void Overlay::RenderMenu() noexcept
 {
+    if (GetAsyncKeyState(VK_INSERT) & 1)
+        Menu::open = !Menu::open;
+
     if (Menu::open)
     {
         ImGui_ImplDX9_NewFrame();
@@ -166,7 +184,6 @@ void Overlay::RenderMenu() noexcept
         ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
     }
 }
-
 
 // Render
 void Overlay::BeginRender() noexcept
@@ -193,9 +210,6 @@ void Overlay::BeginRender() noexcept
 
 void Overlay::EndRender() noexcept
 {
-    /*if (Overlay::open)
-        RenderImgui();*/
-
     g_pd3dDevice->EndScene();
     
     HRESULT result = g_pd3dDevice->Present(nullptr, nullptr, nullptr, nullptr);
@@ -204,7 +218,6 @@ void Overlay::EndRender() noexcept
         ResetDevice();
     }
 }
-
 
 // D3d9 drawing
 void Overlay::Circle(vec2 center, int radius, int numSides, int thickness, D3DCOLOR color)
@@ -276,7 +289,7 @@ void Overlay::Box2D(vec2 center, vec2 offset, int thickness, D3DCOLOR color)
 void Overlay::Text(const char* text, vec2 position, D3DCOLOR color)
 {
     if (!fontf)
-        D3DXCreateFont(g_pd3dDevice, 20, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial", &fontf);
+        D3DXCreateFont(g_pd3dDevice, 16, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial", &fontf);
 
     RECT rect;
 

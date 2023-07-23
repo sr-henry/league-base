@@ -1,15 +1,12 @@
 #pragma once
-
 #include <Windows.h>
 #include <vector>
 #include <chrono>
 #include <future>
 #include <opencv2/opencv.hpp>
-
 #include "../game/objects.h"
 #include "../utils/utils.h"
-
-void HttpRequestGet(const char* url, std::string* httpData);
+#include "../client/requests.h"
 
 class Hack
 {
@@ -20,6 +17,7 @@ public:
 public:
 	LocalPlayer* localPlayer;
 	std::vector<Enemy> enemiesList;
+	std::vector<Minion> minionsList;
 	float gameTime;
 	Utils utils;
 
@@ -52,5 +50,6 @@ private:
 	void GetLocalPlayerData();
 	void GetEnemies();
 	void GetEnemiesData();
+	void GetMinions();
 };
 

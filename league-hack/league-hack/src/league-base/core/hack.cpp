@@ -14,6 +14,8 @@ Hack::Hack()
 	enemiesList.reserve(5);
 	p_enemiesList.reserve(5);
 
+	minionsList.reserve(10);
+
 	std::cout << "Hack init success!\n";
 }
 
@@ -41,39 +43,7 @@ void Hack::Update()
 	GetLocalPlayerData();
 	GetEnemies();
 	GetEnemiesData();
-}
-
-vec2 GetLocalPlayer2(cv::Mat image)
-{
-	// Binarize the image (convert to binary image)
-	cv::Mat binaryImage;
-	cv::threshold(image, binaryImage, 0, 255, cv::THRESH_BINARY);
-
-	// Find connected components
-	cv::Mat labels, stats, centroids;
-	int numComponents = cv::connectedComponentsWithStats(binaryImage, labels, stats, centroids);
-
-	// Iterate over the components (excluding background component)
-	for (int label = 1; label < numComponents; ++label)
-	{
-		// Check the area of the component
-		int area = stats.at<int>(label, cv::CC_STAT_AREA);
-
-		// Consider only components above a certain threshold
-		int areaThreshold = 100; // Adjust this threshold as needed
-		if (area > areaThreshold)
-		{
-			// Get the centroid of the component
-			//cv::Point centroid(centroids.at<double>(label, 0), centroids.at<double>(label, 1));
-
-			//std::cout << "Centroid of component " << label << ": (" << centroid.x << ", " << centroid.y << ")" << std::endl;
-
-			return vec2{ (float)centroids.at<double>(label, 0), (float)centroids.at<double>(label, 1) };
-
-			// Print the centroid coordinates
-			
-		}
-	}
+	GetMinions();
 }
 
 void Hack::GetLocalPlayer()
@@ -116,9 +86,6 @@ void Hack::GetLocalPlayer()
 	}
 
 	localPlayer = nullptr;
-	//cv::imshow("LocalPlayer", mGameImage);
-	//cv::waitKey(1);
-	
 }
 
 void Hack::GetLocalPlayerData()
@@ -139,6 +106,7 @@ void Hack::GetLocalPlayerData()
 
 	b_localPlayer.stats = j["activePlayer"]["championStats"];
 
+	// bad approx
 	float a = h / w;
 
 	float fScreenAARangeRadius = b_localPlayer.stats.attackRange * (1 - a) + 40.f;
@@ -205,19 +173,53 @@ void Hack::GetEnemiesData()
 	}
 }
 
+void Hack::GetMinions()
+{
+	if (!minionsList.empty())
+		minionsList.clear();
+
+	cv::Mat mask;
+	cv::inRange(mGameImage, cv::Scalar(119, 139, 113), cv::Scalar(125, 144, 243), mask);
+
+	cv::Mat kernel2 = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+	cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel2);
+
+	// Find contours in the binary image
+	std::vector<std::vector<cv::Point>> contours;
+	cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+
+	// Iterate over the contours and detect rectangles
+	for (const auto& contour : contours)
+	{
+		// Approximate the contour to a polygon
+		std::vector<cv::Point> polygon;
+		cv::approxPolyDP(contour, polygon, 0.04f, true);
+
+		// Check if the polygon has 4 sides (rectangular shape)
+		if (polygon.size() == 4)
+		{
+			// Create a rectangle bounding box around the polygon
+			cv::Rect rect = cv::boundingRect(polygon);
+
+			minionsList.emplace_back(
+				vec2{ (float)rect.x + 30, (float)rect.y + 50 },
+				(float)rect.width
+			);
+		}
+	}
+}
+
 Enemy* Hack::GetClosestEnemy(vec2 ref)
 {
 	float fMaxDist = 9999.0f;
-	vec2 vDistance;
-	float fDistance;
 
 	if (enemiesList.size() == 0)
 		return nullptr;
 
 	for (int i = 0; i < enemiesList.size(); i++) {
 
-		vDistance = enemiesList[i].pos - ref;
-		fDistance = sqrt(vDistance.x * vDistance.x + vDistance.y * vDistance.y);
+		vec2 vDistance = enemiesList[i].pos - ref;
+		float fDistance = sqrt(vDistance.x * vDistance.x + vDistance.y * vDistance.y);
 
 		if (fDistance < fMaxDist) {
 			fMaxDist = fDistance;

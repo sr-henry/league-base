@@ -11,6 +11,10 @@ public:
 public:
 	int id = 0;
 	vec2 pos{ 0,0 };
+
+private:
+	vec2 m_relPos{ 0,0 };
+	vec2 m_offset{ 0,0 };
 };
 
 
@@ -52,4 +56,16 @@ public:
 			return pos;
 		return pos + ((direction / magnitude) * speed * fPredictTime);
 	}
+};
+
+class Minion : public Entity
+{
+public:
+	Minion() : Entity() {};
+	Minion(vec2 pos, float health) : Entity(pos) {
+		this->health = health;
+	};
+
+public:
+	float health;
 };

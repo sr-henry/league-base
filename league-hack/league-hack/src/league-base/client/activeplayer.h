@@ -49,7 +49,6 @@ static void from_json(const json& j, championStats& cs) {
 	j.at("attackSpeed").get_to(cs.attackSpeed);
 	j.at("bonusArmorPenetrationPercent").get_to(cs.bonusArmorPenetrationPercent);
 	j.at("bonusMagicPenetrationPercent").get_to(cs.bonusMagicPenetrationPercent);
-	//j.at("cooldownReduction").get_to(cs.cooldownReduction);
 	j.at("critChance").get_to(cs.critChance);
 	j.at("critDamage").get_to(cs.critDamage);
 	j.at("currentHealth").get_to(cs.currentHealth);

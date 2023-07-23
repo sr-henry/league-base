@@ -1,6 +1,7 @@
 #define CURL_STATICLIB
+#include "requests.h"
 #include <curl/curl.h>
-#include <string>
+
 
 namespace
 {
