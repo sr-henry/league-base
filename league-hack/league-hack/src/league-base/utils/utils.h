@@ -2,7 +2,8 @@
 #include <thread>
 #include <chrono>
 #include <Windows.h>
-#include "../vectors.h"
+
+#include "../game/vectors.h"
 
 class Utils
 {
@@ -23,6 +24,8 @@ public:
 	void MouseMoveSmooth(vec2 pos, int smoothing, int delay);
 
 	void MouseRightClick(vec2 pos);
+
+	void MouseLeftClick(vec2 pos);
 
 	void KeyboardPressKey(char key);
 };

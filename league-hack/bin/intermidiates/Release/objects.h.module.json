@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "C:\\Users\\Henrique\\source\\repos\\league-hack\\league-hack\\bin\\intermidiates\\\\Release\\objects.h.obj",
+            "outputs": [
+                "C:\\Users\\Henrique\\source\\repos\\league-hack\\league-hack\\bin\\intermidiates\\Release\\vc143.pdb",
+                "C:\\Users\\Henrique\\source\\repos\\league-hack\\league-hack\\bin\\intermidiates\\\\Release\\",
+                "C:\\Users\\Henrique\\source\\repos\\league-hack\\league-hack\\bin\\intermidiates\\Release\\objects.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "src\\league-base\\game\\objects.h",
+                    "source-path": "c:\\users\\henrique\\source\\repos\\league-hack\\league-hack\\league-hack\\src\\league-base\\game\\objects.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}

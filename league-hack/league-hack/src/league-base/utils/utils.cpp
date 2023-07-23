@@ -5,17 +5,19 @@ vec2 Utils::MousePos()
 	POINT pCursorPos;
 	GetCursorPos(&pCursorPos);
 	ScreenToClient(hGameWindow, &pCursorPos);
-	return vec2{ static_cast<float>(pCursorPos.x), static_cast<float>(pCursorPos.y) };
+	return vec2{ (float)pCursorPos.x, (float)pCursorPos.y };
 }
 
 void Utils::MouseMove(vec2 pos)
 {
 	vec2 mouse = MousePos();
 	INPUT in = { 0 };
+
 	in.type = INPUT_MOUSE;
 	in.mi.dwFlags = MOUSEEVENTF_MOVE;
 	in.mi.dx = pos.x - mouse.x;
 	in.mi.dy = pos.y - mouse.y;
+
 	SendInput(1, &in, sizeof(in));
 }
 
@@ -61,8 +63,6 @@ void Utils::MouseRightClick(vec2 pos)
 
 	ZeroMemory(&in, sizeof(in));
 
-	std::this_thread::sleep_for(std::chrono::milliseconds(5));
-
 	in.type = INPUT_MOUSE;
 	in.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
 	in.mi.dx = pos.x;
@@ -70,6 +70,28 @@ void Utils::MouseRightClick(vec2 pos)
 
 	SendInput(1, &in, sizeof(in));
 }
+
+void Utils::MouseLeftClick(vec2 pos)
+{
+	INPUT in = { 0 };
+
+	in.type = INPUT_MOUSE;
+	in.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+	in.mi.dx = pos.x;
+	in.mi.dy = pos.y;
+
+	SendInput(1, &in, sizeof(in));
+
+	ZeroMemory(&in, sizeof(in));
+
+	in.type = INPUT_MOUSE;
+	in.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+	in.mi.dx = pos.x;
+	in.mi.dy = pos.y;
+
+	SendInput(1, &in, sizeof(in));
+}
+
 
 void Utils::KeyboardPressKey(char key)
 {

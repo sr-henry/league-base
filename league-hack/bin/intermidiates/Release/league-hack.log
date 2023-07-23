@@ -1,25 +1,11 @@
-﻿  drawing.cpp
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(78,21): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(112,43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(112,36): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(112,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(112,22): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(115,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(115,26): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(115,23): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(115,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(130,21): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(133,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(136,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(137,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(138,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\league-base\overlay\drawing.cpp(139,18): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+﻿  Scanning sources for module dependencies...
+  hack.cpp
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\core\hack.cpp(101,28): warning C4101: 'ex': unreferenced local variable
+C:\Users\Henrique\source\repos\league-hack\league-hack\league-hack\src\league-base\core\hack.cpp(166,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   main.cpp
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\main.cpp(55,107): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Henrique\Desktop\league-hack\league-hack\league-hack\src\main.cpp(55,71): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   Generating code
-  32 of 2413 functions ( 1.3%) were compiled, the rest were copied from previous compilation.
+  4 of 2992 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    6 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  league-hack.vcxproj -> C:\Users\Henrique\Desktop\league-hack\league-hack\bin\Release\league-hack.exe
+  league-hack.vcxproj -> C:\Users\Henrique\source\repos\league-hack\league-hack\bin\Release\league-hack.exe
